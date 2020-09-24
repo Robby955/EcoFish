@@ -24,7 +24,7 @@ rate as it was replaced, or diluted, by hatchery water. Measurements were obtain
 
 # Field Study
 
-To study how eDNA analysis can be used to detect coho in the wild, several eld studies were conducted. In particular,
+To study how eDNA analysis can be used to detect coho in the wild, several field studies were conducted. In particular,
 four streams in British Columbia were studied (steams AAA, BBB, CCC and DDD).
 Water samples were collected and associated environmental and physical covariates
 were recorded. The main fish of interest was Coho Salmon (Oncorhynchus kisutch),
