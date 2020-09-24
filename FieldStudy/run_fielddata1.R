@@ -13,19 +13,13 @@ library(MuMIn) #Model Averaging
 library(caret)
 library(leaps) #Best Subset Method
 
-setwd("C:/Users/User/Desktop") #Set working directory to location of saved excel file.
-
 fieldData=read.csv("EcoFieldUp.csv") #The original file name is Ecofish run of river salmonids - Combined raw ct scores and fish data. Changed up EcoFieldUp to read in.
 
-
 # We remove observations from Stream DDD in 2018 as they failed integritE tests.
-
 fieldData$StreamYear=paste(fieldData$Stream.Code,fieldData$Year) #Create a column that combines Stream.Code and Year.
-
 
 fieldData=fieldData%>%                    
   filter(StreamYear!='DDD 2018')
-
 
 fieldData$SSRS=paste(fieldData$Stream.Code,fieldData$Sample,fieldData$Reach,fieldData$Site.number) #Creates a unique identifier for each set of tech replicates Stream/Sample/Reach/Site
 #Create new columns to assist in coding and plotting.
@@ -352,16 +346,6 @@ gg_BBB_Ef=ggplot(BBB.frame[BBB.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   ggtitle("Total Biomass (gram) of all Fish for each site at Stream BBB")+
   theme_minimal()+
   theme(legend.position = "none")
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -788,11 +772,6 @@ gg_EF_Outlier=ggplot(data=field.collapse)+
   theme_classic()
 
 
-
-
-
-
-
 field.removeef=field.collapse%>%
   filter(SSRS != 'DDD C Diversion 2') #Remove the observation of the low mean TCT Ef as it is an outlier.
 
@@ -802,18 +781,6 @@ model_coho=lm(MeanTCTCo~CO.Total.Biomass.g+Transect.Flow.cms+CO.Total.Biomass.g*
 
 
 model_coho_full=lm(MeanTCTCo~CO.Total.Biomass.g+Transect.Flow.cms+CO.Total.Biomass.g*Transect.Flow.cms+Water.Temperature.C+pH+Wetted.Width.m+Site.Area.m2+eDNA.Distance.from.Shore.m+eDNA.Total.Water.Depth.m,data=field.collapse)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 model_coho_fin=lm(MeanTCTCo~CO.Biomass.g.m3+Transect.Flow.cms+CO.Biomass.g.m3*Transect.Flow.cms+Water.Temperature.C+pH+eDNA.Distance.from.Shore.m+eDNA.Total.Water.Depth.m,data=field.collapse)
@@ -870,12 +837,5 @@ k_best=kable(best,caption="Best Subset Method",booktabs=T,format="latex")%>%
   kable_styling(latex_options = 'striped')%>%
   add_header_above(c("p"=1,"Biomass"=1,"Flow"=1,"Biomass*Flow"=1,"Temp"=1,"pH"=1,"Shore"=1,"Depth"=1))%>%
   row_spec(row=3,col='red')
-
-
-
-
-
-
-
 
 
