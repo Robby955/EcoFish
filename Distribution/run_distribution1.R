@@ -20,10 +20,6 @@ suppressMessages(library(kableExtra)) #For building kable plots
 suppressMessages(library(OutlierDetection)) #For outlier detection
 
 
-
-setwd("C:/Users/User/Desktop/EcoCode") #Set working directory to location of csv file.
-
-
 # Read in Data and Wrangle.
 
 
