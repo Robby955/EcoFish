@@ -1,6 +1,6 @@
-setwd("C:/Users/User/Desktop/Thesis") 
+# Dilution Analysis
 
-
+#Load libraries.
 library(knitr) 
 library(dplyr)  #For piping and general use
 library(kableExtra) #For making kable plots
@@ -12,11 +12,8 @@ library(SiZer) #For bent.cable function
 library(robust) #For robust analysis
 
 
-
-
 flow.dat<-read.csv("Flow-4July2019.csv") 
 #The original name of the excel/csv file is "Flow_experiment_complete-070419MJA.csv"
-
 
 #Remove unimportant/blank columns
 flow.dat <- flow.dat[1:864,-c(2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22:ncol(flow.dat))]
@@ -33,8 +30,6 @@ sort.index<-c(31,84)
 '%ni%' <- Negate('%in%')
 
 flow.dat<-flow.dat[flow.dat$Sort.Code %ni% sort.index, ] #Remove those from our data set.
-
-
 
 
 #Use grep, these indictors will tell us what rows contain that kL of flow and tank number.
@@ -80,12 +75,6 @@ flow.dat$Lab.Code.bool[c(g1, g2, g3)] <- FALSE
 flow.cut<- flow.dat %>%           #New data frame which only contains those we wish to keep.
   filter(Lab.Code.bool==TRUE)  
 
-
-
-
-
-
-
 options(knitr.kable.NA = '')
 
 # Define a counting function that counts number of unique elements.
@@ -122,13 +111,9 @@ k_sample_rep2=kable(reps3,caption="Number of Sample.replicates by Flow/Tank",for
   add_header_above(c("Flow (kL)" = 1,"Log2(Flow)"=1, "Tank" = 5))
 
 
-
-
 #initialize blank columns.
 flow.dat$tanknum=0
 flow.dat$flownum=0
-
-
 
 #Populate new columns.
 
