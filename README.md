@@ -18,13 +18,19 @@ experiment consisted of manipulating juvenile coho salmon densities in treatment
 
 # Dilution Experiment
 
-In this experiment, three juvenile coho were allowed to acclimate to four tanks (tanks 19, 20, 21 and 24) and were subsequently removed.After the coho were removed, water was allowed to flow out of each tank at a known
+In this experiment, three juvenile coho were allowed to acclimate to four tanks (tanks 19, 20, 21 and 24) and were subsequently removed. After the coho were removed, water was allowed to flow out of each tank at a known
 rate as it was replaced, or diluted, by hatchery water. Measurements were obtained at several intervals of varying levels of flow. Moreover, several control samples were taken from the hatchery kitchen sink and from the hatchery pond.
 
 
 # Field Study
 
-- to add
+To study how eDNA analysis can be used to detect coho in the wild, several eld studies were conducted. In particular,
+four streams in British Columbia were studied (steams AAA, BBB, CCC and DDD).
+Water samples were collected and associated environmental and physical covariates
+were recorded. The main fish of interest was Coho Salmon (Oncorhynchus kisutch),
+although we also considered Cutthroat Trout (Oncorhynchus clarkii ) and Rainbow
+Trout (Oncorhynchus mykiss). Ecofish personnel also took biomass measurements
+of each of the species caught using electrofishing.
 
 
 # Distribution Checks
