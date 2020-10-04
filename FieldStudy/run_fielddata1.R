@@ -111,15 +111,18 @@ names(AAA.frame)=c("Species","Site","SiteAbundance","Biomass","Length") #Assign 
 
 AAA.frame$Site=as.factor(AAA.frame$Site) #Make sure site is as a factor.
 
-g1=ggplot(data=fieldData.AAA)+
+fieldData.AAA=fieldData%>%
+  filter(Stream.Code=='AAA')
+
+ g1=ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.cl,color=Sample ),shape=19)+
   ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
-  ggtitle("Transformed Ct for Cutthroat Trout at Stream AAA")+
+  ggtitle("Transformed CT for Cutthroat Trout at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
-  theme_minimal()
+    theme(legend.position = "none")+
+    theme_minimal()
 
 g2=ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ki,color=Sample))+
@@ -128,31 +131,33 @@ g2=ggplot(data=fieldData.AAA)+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Coho Salmon at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
-  theme_minimal()
+    theme(legend.position = "none")+
+    theme_minimal()
 
 
-g3= ggplot(data=fieldData.AAA)+
+ g3= ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.my,color=Sample))+
   ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Rainbow Trout at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
-  theme_minimal()
+   theme(legend.position = "none")+
+    theme_minimal()
 
-
-
-g4= ggplot(data=fieldData.AAA)+
+ 
+ 
+  g4= ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
-  ylim(0,20)+
+    ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
-  ggtitle("Transformed CT for all Fish at Stream AAA")+
+  ggtitle("Transformed CT for All Fish at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
-  theme_minimal()
+    theme(legend.position = "none")+
+    theme_minimal()
+
+
 gg_AAA_Biomass=ggplot(data=AAA.frame,mapping=aes(x=Species,y=Biomass,fill=Site,label=Biomass))+
   geom_bar(stat='identity')+
   geom_text(size = 3, position = position_stack(vjust = 0.5))+
@@ -247,15 +252,14 @@ BBB.frame$Site=as.factor(BBB.frame$Site) #Make sure site is as a factor.
 
 
 
-
 g1_BBB=ggplot(data=fieldData.BBB)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.cl,color=Sample))+
   ylim(0,20)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Cutthroat Trout at Stream BBB")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Cutthroat Trout at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
+ theme(legend.position = "none")+
   theme_minimal()
 
 
@@ -266,31 +270,31 @@ g2_BBB=ggplot(data=fieldData.BBB)+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Coho Salmon at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
+    theme(legend.position = "none")+
   theme_minimal()
 
 
 
-g3_BBB= ggplot(data=fieldData.BBB)+
+ g3_BBB= ggplot(data=fieldData.BBB)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.my,color=Sample))+
-  ylim(0,20)+
+   ylim(0,20)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Rainbow Trout at Stream BBB")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Rainbow Trout at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
-  theme_minimal()
-
-
-g4_BBB= ggplot(data=fieldData.BBB)+
+   theme_minimal()
+ 
+ 
+  g4_BBB= ggplot(data=fieldData.BBB)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
   ylim(0,20)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for all Fish at Stream BBB")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for All Fish at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
-  theme(legend.position = "none")+
-  theme_minimal()
+    theme(legend.position = "none")+
+    theme_minimal()
 
 
 gg_BBB_Biomass=ggplot(data=BBB.frame,mapping=aes(x=Species,y=Biomass,fill=Site,label=Biomass))+
@@ -373,8 +377,6 @@ CCC.frame=data.frame(new.fish.vec_ef,reach.vec_ef,new.site.vector_ef,ar,ar2,ar3)
 names(CCC.frame)=c("Species","Reach","Site","SiteAbundance","Biomass","Length") #Assign names to data frame
 
 
-#CCC.frame$Site[CCC.frame$Reach=='Upstream']=CCC.frame$Site+3 # The three sites at Upstream are NOT the same as the three sites at the Diversion. So we scale so we can differentiate. 
-
 CCC.frame$Site=as.factor(CCC.frame$Site) #Make sure site is as a factor.
 
 g1_CCC=ggplot(data=fieldData.CCC)+
@@ -382,8 +384,8 @@ g1_CCC=ggplot(data=fieldData.CCC)+
   facet_wrap(~Reach,ncol=2)+
   ylim(0,23)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Cutthroat Trout at Stream CCC")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Cutthroat Trout at Stream CCC")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme(axis.text.y = element_text( size = 8 ))+
@@ -409,8 +411,8 @@ g3_CCC=ggplot(data=fieldData.CCC)+
   facet_wrap(~Reach,ncol=2)+
   ylim(0,23)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Rainbow Trout at Stream CCC")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Rainbow Trout at Stream CCC")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme(axis.text.y = element_text( size = 8 ))+
@@ -421,8 +423,8 @@ g4_CCC= ggplot(data=fieldData.CCC)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
   facet_wrap(~Reach,ncol=2)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for all Fish at Stream CCC")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for All Fish at Stream CCC")+
   ylim(0,23)+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
@@ -487,7 +489,7 @@ gg_CCC_Ef=ggplot(CCC.frame[CCC.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   xlab("Site Number")+
   ylab("Total Biomass (g)")+
   facet_wrap(~Reach,ncol=2)+
-  ggtitle("Total Biomass (gram) of all Fish for each site at Stream CCC")+
+  ggtitle("Total Biomass (gram) of All Fish for each site at Stream CCC")+
   theme_minimal()+
   theme(legend.position = "none")
 
@@ -498,7 +500,6 @@ fieldData.DDD=fieldData%>%
 
 
 #Fix Excel mistake. Zero Coho were found at Site DDD!
-
 fieldData.DDD$CO.Abundance=0
 fieldData.DDD$CO.Total.Biomass.g=0
 fieldData.DDD$CO.Avg.Length.mm=0
@@ -537,8 +538,8 @@ g1_DDD=ggplot(data=fieldData.DDD)+
   facet_wrap(~Reach,ncol=2)+
   ylim(0,20)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Cutthroat Trout at Stream DDD")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Cutthroat Trout at Stream DDD")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme(axis.text.y = element_text( size = 8 ))+
@@ -563,8 +564,8 @@ g3_DDD=ggplot(data=fieldData.DDD)+
   facet_wrap(~Reach,ncol=2)+
   ylim(0,20)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for Rainbow Trout at Stream DDD")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for Rainbow Trout at Stream DDD")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme(axis.text.y = element_text( size = 8 ))+
@@ -575,8 +576,8 @@ g4_DDD= ggplot(data=fieldData.DDD)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
   facet_wrap(~Reach,ncol=2)+
   xlab("Site Number")+
-  ylab("Transformed Ct")+
-  ggtitle("Transformed Ct for all Fish at Stream DDD")+
+  ylab("Transformed CT")+
+  ggtitle("Transformed CT for all Fish at Stream DDD")+
   ylim(0,20)+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
@@ -642,7 +643,7 @@ gg_DDD_Ef=ggplot(DDD.frame[DDD.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   xlab("Site Number")+
   ylab("Total Biomass (g)")+
   facet_wrap(~Reach,ncol=2)+
-  ggtitle("Total Biomass (gram) of all Fish for each site at Stream DDD")+
+  ggtitle("Total Biomass (gram) of All Fish for each site at Stream DDD")+
   theme_minimal()+
   theme(legend.position = "none")
 
@@ -785,7 +786,7 @@ model_coho_full=lm(MeanTCTCo~CO.Total.Biomass.g+Transect.Flow.cms+CO.Total.Bioma
 
 model_coho_fin=lm(MeanTCTCo~CO.Biomass.g.m3+Transect.Flow.cms+CO.Biomass.g.m3*Transect.Flow.cms+Water.Temperature.C+pH+eDNA.Distance.from.Shore.m+eDNA.Total.Water.Depth.m,data=field.collapse)
 
-
+# Set options needed for MuMIn package.
 options(na.action = "na.fail")
 options(digits=3)
 ma_coho <- MuMIn::dredge(model_coho_fin)
@@ -793,7 +794,7 @@ mma=model.avg(ma_coho, subset = delta < 4)
 confset.95p <- get.models(ma_coho, cumsum(weight) <= .95)
 avgmod.95p <- model.avg(confset.95p)
 
-
+# Create subset models
 models_sub <- regsubsets(MeanTCTCo~CO.Biomass.g.m3+Transect.Flow.cms+CO.Biomass.g.m3*Transect.Flow.cms+Water.Temperature.C+pH+eDNA.Distance.from.Shore.m+eDNA.Total.Water.Depth.m, data = field.collapse, nvmax = 7)
 
 
