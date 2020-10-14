@@ -1,7 +1,5 @@
 # EcoFish
 
-![What is this](Images/fish2.png)
-
 
 Code Used for analysis of Data and visualizations of Environmental DNA measurements taken from EcoFish Ltd datasets.
 
