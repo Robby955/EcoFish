@@ -11,7 +11,7 @@ Finally, we include code for the testing and outlier search for several eDNA rel
 
 # Density Experiment 
 The goal was to investigate the relationship between
-Transformed CT values ('TCT') and coho salmon 'density' (or the similar measurement
+Transformed CT values ('TCT') and Coho salmon 'density' (or the similar measurement
 of biomass). CT is the Cycle Threshold and we define TCT=50-CT. The
 experiment consisted of manipulating juvenile Coho Salmon densities in treatments of
 1, 2, 4, 8, 16, 32, and 65 fish in replicated 10,000L tanks.
@@ -21,13 +21,13 @@ experiment consisted of manipulating juvenile Coho Salmon densities in treatment
 
 # Dilution Experiment
 
-In this experiment, three juvenile Coho were allowed to acclimate to four tanks (tanks 19, 20, 21 and 24) and were subsequently removed. After the coho were removed, water was allowed to flow out of each tank at a known
+In this experiment, three juvenile Coho were allowed to acclimate to four tanks (tanks 19, 20, 21 and 24) and were subsequently removed. After the Coho were removed, water was allowed to flow out of each tank at a known
 rate as it was replaced, or diluted, by hatchery water. Measurements were obtained at several intervals of varying levels of flow. Moreover, several control samples were taken from the hatchery kitchen sink and from the hatchery pond.
 ![What is this](Images/TCTflow.png)
 
 # Field Study
 
-To study how eDNA analysis can be used to detect coho in the wild, several field studies were conducted. In particular,
+To study how eDNA analysis can be used to detect Coho in the wild, several field studies were conducted. In particular,
 four streams in British Columbia were studied (steams AAA, BBB, CCC and DDD).
 Water samples were collected and associated environmental and physical covariates
 were recorded. The main fish of interest was Coho Salmon (Oncorhynchus kisutch),
