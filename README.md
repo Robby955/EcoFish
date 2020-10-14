@@ -20,6 +20,7 @@ experiment consisted of manipulating juvenile coho salmon densities in treatment
 
 In this experiment, three juvenile coho were allowed to acclimate to four tanks (tanks 19, 20, 21 and 24) and were subsequently removed. After the coho were removed, water was allowed to flow out of each tank at a known
 rate as it was replaced, or diluted, by hatchery water. Measurements were obtained at several intervals of varying levels of flow. Moreover, several control samples were taken from the hatchery kitchen sink and from the hatchery pond.
+![What is this](Images/bentcablemeantct.png)
 
 
 # Field Study
