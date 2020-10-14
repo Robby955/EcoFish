@@ -34,8 +34,11 @@ were recorded. The main fish of interest was Coho Salmon (Oncorhynchus kisutch),
 although we also considered Cutthroat Trout (Oncorhynchus clarkii ) and Rainbow
 Trout (Oncorhynchus mykiss). Ecofish personnel also took biomass measurements
 of each of the species caught using electrofishing.
+
 ![What is this](Images/pcaimage.png)
 
 # Distribution Checks
 
 Analysis of several eDNA related qPCR targets. Checking for consistency and outliers under several distributions.
+![What is this](Images/distributions.png)
+
