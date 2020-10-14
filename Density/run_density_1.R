@@ -1,4 +1,8 @@
 
+# This R script runs the density data analysis.
+
+
+# Load packages and libraries.
 library(knitr) #For rendering output to pdf
 library(dplyr) #For piping
 library(kableExtra) #For making kable plots
@@ -30,7 +34,7 @@ eco.dat$CT<-eco.dat$Adjusted.Ct...N.A.50.
 eco.dat=eco.dat %>%   #Remove sort code 128 since it did not pass the integritE DNA test in the lab.
   filter(Sort.Code != 128) 
 
-
+# Use grep to extract number of fish and tank.
 fish.ind0<-grep("^0 Fish,", eco.dat$Site.ID)
 fish.ind1<-grep("^1 Fish,", eco.dat$Site.ID)
 fish.ind2<-grep("^2 Fish,", eco.dat$Site.ID)
@@ -73,6 +77,8 @@ eco.dat$Fish[fish.ind65] <- 65
 
 eco.dat$TankF<-as.factor(eco.dat$Tank) #Add new column, tank as factor. 
 eco.dat$FishF<-as.factor(eco.dat$Fish) #Add new column, Fish as factor.
+
+# Manually assign dates according to experiment.
 
 dp='08-12' # Pilot experiment date.
 d1='08-19' # The official experiment began on August 19, 2015 and continued through that week on a daily basis.
