@@ -20,14 +20,13 @@ library(patchwork) #Common Titles in ggplot
 
 
 #Read in the initial dataset.
-eco.dat<-read.csv("DensityDataUpdated.csv")
+eco.dat<-read.csv("DensityDataUpdated.csv",,fileEncoding="UTF-8-BOM")
 
 #Check out the original dimension.
 print(paste("The original dimension of the dataset is", nrow(eco.dat),"by",ncol(eco.dat)))
 
 #Remove unimportant/blank columns that appeared in the raw data.
 eco.dat <- eco.dat[,-(22:39)]
-eco.dat$Sort.Code<-eco.dat$ï..Sort.Code
 eco.dat$TCT<-eco.dat$Transformed.Ct..50.001.Ct.
 eco.dat$CT<-eco.dat$Adjusted.Ct...N.A.50.
 
@@ -134,7 +133,7 @@ mass.original <- read.csv('densitybiomassoriginal.csv', stringsAsFactors = FALSE
 
 mass.original.sub <- mass.original[10:16, 8:14]
 mass.original.sub <- mass.original.sub[,-c(2, 4, 6)] #Remove unneeded columns
-iTank.original <- unique(mass.original$ï..Tank) #Find the tank numbers
+iTank.original <- unique(mass.original$Tank) #Find the tank numbers
 rep.tank <- rep(iTank.original, 7) #Repeat each of the tanks for each of the seven days
 
 #There were seven days, 1:7 , for each day we wish to collapse over the four tanks 19, 20 , 21 and 24.
