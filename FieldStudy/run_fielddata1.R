@@ -1,18 +1,20 @@
 
 # Analysis of Field Data set.
 
-
+# Load libraries and packages.
 library(tidyverse) # For creating tidy dataframes and piping
 library(ggplot2) #For plotting
 library(gdata) #For unrolling matrices into vectors
-library(kableExtra)
+library(kableExtra) # For making Kable plots
 library(MASS) #Model selection
-library(magrittr)
+library(magrittr) # For formatting
 library(lme4) # Mixed Models
 library(MuMIn) #Model Averaging
-library(caret)
+library(caret) 
 library(leaps) #Best Subset Method
 
+
+#Read in the original data
 fieldData=read.csv("EcoFieldUp.csv") #The original file name is Ecofish run of river salmonids - Combined raw ct scores and fish data. Changed up EcoFieldUp to read in.
 
 # We remove observations from Stream DDD in 2018 as they failed integritE tests.
@@ -45,8 +47,8 @@ fieldData$RB.Biomass.g.m3=fieldData$RB.Biomass.g.m2/fieldData$Transect.Depth.m #
 fieldData$Fish.Biomass.g.m3=fieldData$Fish.Biomass.g.m2/fieldData$Transect.Depth.m #Create Volume by accounting for Transect Depth.
 
 
-
-jind<-rep(c(TRUE,rep(FALSE,7)),nrow(fieldData)/8) #We collapse over each set of eight techinical replicates.
+#We collapse over each set of eight techinical replicates.
+jind<-rep(c(TRUE,rep(FALSE,7)),nrow(fieldData)/8) 
 
 field.collapse=fieldData[jind, ]
 
@@ -70,7 +72,7 @@ field.removeef=field.collapse%>%
   filter(SSRS != 'DDD C Diversion 2') #Remove the observation of the low mean TCT Ef as it is an outlier.
 
 
-
+# Create dataframes we will use for plotting.
 
 reach.vec_ef=c(rep("Diversion",12),rep("Upstream",12))
 
@@ -83,7 +85,7 @@ new.site.vector_ef=rep(c(rep(1,4),rep(2,4),rep(3,4)),2)
 new.fish.vec_ef=rep(fish.vec_ef,2) # We have twice as many samples now (18 instead of 9).
 
 
-
+# Stream AAA
 
 fieldData.AAA=fieldData%>%
   filter(Stream.Code=='AAA')
@@ -224,6 +226,7 @@ gg_AAA_Ef=ggplot(AAA.frame[AAA.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   theme(legend.position = "none")
 
 
+# Stream BBB
 
 fieldData.BBB=fieldData%>%
   filter(Stream.Code=='BBB')
@@ -353,7 +356,7 @@ gg_BBB_Ef=ggplot(BBB.frame[BBB.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
 
 
 
-
+# Stream CCC
 
 fieldData.CCC=fieldData%>%
   filter(Stream.Code=='CCC')
@@ -493,7 +496,7 @@ gg_CCC_Ef=ggplot(CCC.frame[CCC.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   theme_minimal()+
   theme(legend.position = "none")
 
-
+# Stream DDD
 
 fieldData.DDD=fieldData%>%
   filter(Stream.Code=='DDD')
@@ -648,9 +651,10 @@ gg_DDD_Ef=ggplot(DDD.frame[DDD.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   theme(legend.position = "none")
 
 
+#We collapse over each set of eight techinical replicates.
+jind<-rep(c(TRUE,rep(FALSE,7)),nrow(fieldData)/8) 
 
-jind<-rep(c(TRUE,rep(FALSE,7)),nrow(fieldData)/8) #We collapse over each set of eight techinical replicates.
-
+# Only keep the first from each set.
 field.collapse=fieldData[jind, ]
 
 field.collapse$MeanTCTCt=tapply(fieldData$Transformed.cl,factor(fieldData$SSRS),mean,na.rm=T)
@@ -723,7 +727,7 @@ model_rb_med=lm(MedTCTRb~RB.Total.Biomass.g, data=field.collapse)
 
 
 
-
+# GGplots
 
 gg_CO2=ggplot(data=field.collapse)+
   geom_point(mapping=aes(x=CO.Total.Biomass.g,y=MeanTCTCo,color=Stream,shape=Stream))+
