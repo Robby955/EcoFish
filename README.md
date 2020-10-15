@@ -21,6 +21,7 @@ Transformed CT values ('TCT') and Coho salmon 'density' (or the similar measurem
 of biomass). CT is the Cycle Threshold and we define TCT=50-CT. The
 experiment consisted of manipulating juvenile Coho Salmon densities in treatments of
 1, 2, 4, 8, 16, 32, and 65 fish in replicated 10,000L tanks.
+
 ![What is this](Images/tctdensity.png)
 
 
