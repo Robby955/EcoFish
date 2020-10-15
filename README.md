@@ -1,7 +1,11 @@
 # EcoFish
 
 
-Code Used for analysis of Data and visualizations of Environmental DNA measurements taken from EcoFish Ltd datasets.
+![What is this](Images/fish2.png)
+
+Image Citation: https://gen-fish.ca/uses-and-limitations-of-environmental-dna-edna-in-fisheries-management/
+
+This Repository contains code used for analysis of Data and visualizations of Environmental DNA measurements taken from EcoFish Ltd datasets.
 
 Four main set of codes will be available.
 
