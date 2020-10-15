@@ -12,9 +12,11 @@ library(lme4) # Mixed Models
 library(MuMIn) #Model Averaging
 library(caret) 
 library(leaps) #Best Subset Method
+library(factoextra) #Principal Component Analysis
 
 
 #Read in the original data
+
 fieldData=read.csv("EcoFieldUp.csv") #The original file name is Ecofish run of river salmonids - Combined raw ct scores and fish data. Changed up EcoFieldUp to read in.
 
 # We remove observations from Stream DDD in 2018 as they failed integritE tests.
@@ -116,15 +118,15 @@ AAA.frame$Site=as.factor(AAA.frame$Site) #Make sure site is as a factor.
 fieldData.AAA=fieldData%>%
   filter(Stream.Code=='AAA')
 
- g1=ggplot(data=fieldData.AAA)+
+g1=ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.cl,color=Sample ),shape=19)+
   ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Cutthroat Trout at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-    theme(legend.position = "none")+
-    theme_minimal()
+  theme(legend.position = "none")+
+  theme_minimal()
 
 g2=ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ki,color=Sample))+
@@ -133,31 +135,31 @@ g2=ggplot(data=fieldData.AAA)+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Coho Salmon at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-    theme(legend.position = "none")+
-    theme_minimal()
+  theme(legend.position = "none")+
+  theme_minimal()
 
 
- g3= ggplot(data=fieldData.AAA)+
+g3= ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.my,color=Sample))+
   ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Rainbow Trout at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-   theme(legend.position = "none")+
-    theme_minimal()
+  theme(legend.position = "none")+
+  theme_minimal()
 
- 
- 
-  g4= ggplot(data=fieldData.AAA)+
+
+
+g4= ggplot(data=fieldData.AAA)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
-    ylim(0,20)+
+  ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for All Fish at Stream AAA")+
   scale_x_discrete(limits = c("1","2","3"))+
-    theme(legend.position = "none")+
-    theme_minimal()
+  theme(legend.position = "none")+
+  theme_minimal()
 
 
 gg_AAA_Biomass=ggplot(data=AAA.frame,mapping=aes(x=Species,y=Biomass,fill=Site,label=Biomass))+
@@ -262,7 +264,7 @@ g1_BBB=ggplot(data=fieldData.BBB)+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Cutthroat Trout at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
- theme(legend.position = "none")+
+  theme(legend.position = "none")+
   theme_minimal()
 
 
@@ -273,31 +275,31 @@ g2_BBB=ggplot(data=fieldData.BBB)+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Coho Salmon at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
-    theme(legend.position = "none")+
+  theme(legend.position = "none")+
   theme_minimal()
 
 
 
- g3_BBB= ggplot(data=fieldData.BBB)+
+g3_BBB= ggplot(data=fieldData.BBB)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.my,color=Sample))+
-   ylim(0,20)+
+  ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for Rainbow Trout at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
-   theme_minimal()
- 
- 
-  g4_BBB= ggplot(data=fieldData.BBB)+
+  theme_minimal()
+
+
+g4_BBB= ggplot(data=fieldData.BBB)+
   geom_point(mapping=aes(x=jitter(Site.number,0.2),y=Transformed.ef,color=Sample))+
   ylim(0,20)+
   xlab("Site Number")+
   ylab("Transformed CT")+
   ggtitle("Transformed CT for All Fish at Stream BBB")+
   scale_x_discrete(limits = c("1","2","3"))+
-    theme(legend.position = "none")+
-    theme_minimal()
+  theme(legend.position = "none")+
+  theme_minimal()
 
 
 gg_BBB_Biomass=ggplot(data=BBB.frame,mapping=aes(x=Species,y=Biomass,fill=Site,label=Biomass))+
@@ -844,3 +846,61 @@ k_best=kable(best,caption="Best Subset Method",booktabs=T,format="latex")%>%
   row_spec(row=3,col='red')
 
 
+# Make a dataframe summarizing key covariates.
+
+temp_fieldall2=fieldData %>% # This allows us to view the mean temperature at each stream for a given year.
+  group_by(Stream.Code,Year,Site.number,Reach) %>%
+  summarize(temp=round(mean(Water.Temperature.C),3),ph=round(mean(pH),3),flow=round(mean(Transect.Flow.cms),3),depth=round(mean(eDNA.Total.Water.Depth.m),3),shore=round(mean(eDNA.Distance.from.Shore.m),3))
+
+
+temp_fieldall2=data.frame(temp_fieldall2)
+
+names(temp_fieldall2)=c("Stream","Year","Site","Reach","Temperature","pH","Flow (cm/s)","Depth","Shore")
+
+
+
+
+
+# Remove Identifying variables such as Stream, Site , Reach and Year
+
+temp_fieldall_pca=temp_fieldall2 %>% dplyr::select(-Stream,-Site,-Reach,-Year)
+
+p=paste(temp_fieldall2$Stream,temp_fieldall2$Reach) # Get stream and reach
+
+ll=as.numeric(as.factor(paste(temp_fieldall2$Stream,temp_fieldall2$Reach)))
+
+streams=c('AA1','AA2','AA3','BB1','BB2','BB3','CC1','CC2','CC3','CC4','CC5','CC6','DD1','DD2','DD3','DD4','DD5','DD6')
+
+row.names(temp_fieldall_pca)=streams
+
+# Create PCA
+res.pca_new<-prcomp(temp_fieldall_pca,scale=TRUE)
+
+
+
+# Get coefficients
+res.pca_new
+
+
+#Scree Plot
+f1=fviz_eig(res.pca_new,addlabels = TRUE,barfill='blueviolet')
+
+
+#Contributions
+f2=fviz_pca_var(res.pca_new,
+             col.var = "contrib", # Color by contributions to the PC
+             gradient.cols = c("blue", "purple", "red"),
+             
+             repel = TRUE     # Avoid text overlapping
+)
+
+
+# Plot by first two components by stream/reach.
+
+f3=fviz_pca_ind(res.pca_new,
+             col.ind = p, # color by groups
+             palette = c("red","blue","green","purple","black","orange"),
+             addEllipses = TRUE, # Concentration ellipses
+             ellipse.type = "confidence",
+             legend.title = "Stream",
+             repel = TRUE,geom.ind = "point")
