@@ -1,8 +1,7 @@
 
+# This code provides several anomaly checks and outlier detection for eDNA primers. Of particular intrest are eONKI4 and eFISH1.
 
 # Set parameters and load in libraries.
-
-
 knitr::opts_chunk$set(fig.width=12, fig.height=10) 
 
 suppressMessages(library(tidyverse))  #For general usage and piping
@@ -21,7 +20,6 @@ suppressMessages(library(OutlierDetection)) #For outlier detection
 
 
 # Read in Data and Wrangle.
-
 
 Dat=read.csv('Helbing-LOD_LOQ_DataZero48-040319MJAML.csv',header=TRUE,stringsAsFactors = TRUE) #Read in the data set
 
