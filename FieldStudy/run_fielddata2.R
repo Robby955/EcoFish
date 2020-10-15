@@ -1,5 +1,6 @@
 
-# Plots for Coho.
+# Render some of the important plots.
+
 g2
 gg_AAA_Coho
 
@@ -15,3 +16,7 @@ gg_DDD_Co
 
 
 gg_CO2
+
+f1
+f2
+f3
