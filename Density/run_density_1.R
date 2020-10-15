@@ -20,7 +20,8 @@ library(patchwork) #Common Titles in ggplot
 
 
 #Read in the initial dataset.
-eco.dat<-read.csv("DensityDataUpdated.csv",,fileEncoding="UTF-8-BOM")
+eco.dat<-read.csv("DensityDataUpdated.csv",fileEncoding="UTF-8-BOM")
+
 
 #Check out the original dimension.
 print(paste("The original dimension of the dataset is", nrow(eco.dat),"by",ncol(eco.dat)))
@@ -129,7 +130,7 @@ for(i in 1:nrow(eco.dat)){
 
 
 mass.original <- read.csv('densitybiomassoriginal.csv', stringsAsFactors = FALSE, 
-                          na.strings=c("NA", "NaN", "", 0))
+                          na.strings=c("NA", "NaN", "", 0),fileEncoding="UTF-8-BOM")
 
 mass.original.sub <- mass.original[10:16, 8:14]
 mass.original.sub <- mass.original.sub[,-c(2, 4, 6)] #Remove unneeded columns
@@ -363,8 +364,8 @@ gz_zerofish2=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 14
   facet_wrap(.~numT,nrow=2)+
   ylim(0,20)+
   labs(y="TCT", x="Sample Replicate")+theme_bw()+ggtitle("Plot of TCT for Zero Fish.")+ theme(strip.background =element_rect(fill="lightblue"))+theme( axis.line = element_line(colour = "black", 
-                                                                                                                                    
-size = 0.5, linetype = "solid"))
+                                                                                                                                                                                
+                                                                                                                                                                                size = 0.5, linetype = "solid"))
 
 
 eco.dat$NewCode=0
