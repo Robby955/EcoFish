@@ -1,5 +1,6 @@
 # Dilution Analysis
 
+
 #Load libraries.
 library(knitr) 
 library(dplyr)  #For piping and general use
@@ -18,17 +19,17 @@ flow.dat<-read.csv("Flow-4July2019.csv")
 #Remove unimportant/blank columns
 flow.dat <- flow.dat[1:864,-c(2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22:ncol(flow.dat))]
 
-#summary(flow.dat)
 
 #Rename the columns for easy acess.
 names(flow.dat)<-c("Sort.Code","Site.ID","Sample.replicate","Lab.Code","Transformed.Ct")  
 
 #We need to remove samples which did not pass the integrity score. These correspond to sort.code=84 and sort.code=31
-
 sort.index<-c(31,84)
 
+# Define negation function to use
 '%ni%' <- Negate('%in%')
 
+# Use negation to remove bad sort codes
 flow.dat<-flow.dat[flow.dat$Sort.Code %ni% sort.index, ] #Remove those from our data set.
 
 
@@ -75,6 +76,7 @@ flow.dat$Lab.Code.bool[c(g1, g2, g3)] <- FALSE
 flow.cut<- flow.dat %>%           #New data frame which only contains those we wish to keep.
   filter(Lab.Code.bool==TRUE)  
 
+# Set knitr options for kables , NA show as blank
 options(knitr.kable.NA = '')
 
 # Define a counting function that counts number of unique elements.
@@ -100,6 +102,7 @@ names(reps3)=c("",1,19,20,21,24)
 #Apply the function over each sort code and level of flow/tank.
 reps2 <- tapply(flow.cut$Sort.Code, list(flow.cut$Flow, flow.cut$Tank), numrep)
 
+# Kables dont reneder in R, need to use latex if want to re-render.
 
 k_sample_rep1=kable(reps2, caption="Number of Sample.replicates by Flow/Tank",format='latex',booktabs=T)%>%
   kable_styling("striped") %>%
@@ -167,12 +170,14 @@ for(i in 1:nrow(flow.dat)){
 
 flow.dat$flownum=factor(flow.dat$flownum)
 
+# Possible flow values
 flow.dat$flownum <- factor(flow.dat$flownum,levels=c('10 kL',"20 kL","40 kL","80 kL","160 kL","1000 kL"))
 
-
-
+# Jitter x axis for plotting
 jitter <- position_jitter(width = 0.15, height =0)
 
+
+# Plot of zero fish
 gg_zerofish=ggplot(data=flow.dat%>%filter(Flow=='0'))+
   geom_point(mapping=aes(x=Sample.replicate,y=Transformed.Ct),alpha=0.5,position=jitter)+
   facet_wrap(.~tanknum)+theme_bw()+ylab("TCT")+
@@ -185,6 +190,8 @@ gg_zerofish=ggplot(data=flow.dat%>%filter(Flow=='0'))+
 
 #ggsave('zerofish.pdf',gz,height=6,width=6,dpi=300)
 
+# Sink and Pond Plot
+
 gg_pond_sink=ggplot(data=flow.dat%>%filter(Flow==c('pond','sink')))+
   geom_point(mapping=aes(x=Sample.replicate,y=Transformed.Ct),alpha=0.5,position=jitter)+
   facet_wrap(.~tanknum)+theme_bw()+ylab("TCT")+
@@ -194,6 +201,7 @@ gg_pond_sink=ggplot(data=flow.dat%>%filter(Flow==c('pond','sink')))+
   theme( axis.line = element_line(colour = "black", size = 0.5, linetype = "solid"))
 #ggsave('pondandsink.pdf',gg_pond_sink,height=6,width=6,dpi=300)
 
+# TCT by Tank and Flow
 
 gz_final_flow=ggplot(data=flow.dat%>%filter(Flow!='0')%>%filter(Flow!='sink')%>%filter(Flow!='pond')%>%filter(Lab.Code.bool==TRUE))+
   geom_point(mapping=aes(x=Sample.replicate,y=Transformed.Ct),alpha=0.5,position=jitter)+ylim(0,22.5)+
@@ -206,7 +214,7 @@ gz_final_flow=ggplot(data=flow.dat%>%filter(Flow!='0')%>%filter(Flow!='sink')%>%
                                   size = 0.5, linetype = "solid"))
 
 
-
+# Numeric versions of Flow, Tank and Log2 Flow
 
 iFlowN <- c(10, 20, 40, 80, 160, 1000)
 iTank <- c(19, 20, 21, 24)
@@ -217,6 +225,7 @@ flow.init=c(rep(3.322,4),rep(4.322,4),rep(5.322,4),rep(6.322,4),rep(7.322,4),rep
 init.frame<-matrix(0,nrow=length(iFlowN)*length(iTank),ncol=length(iTank)+2)
 count1=1
 
+# Populate
 for (j in iFlowN){
   for (k in iTank){
     flow.sub<-flow.cut %>%
@@ -306,11 +315,11 @@ flow.new.sum.dat<-data.frame(flow.new[jind, ]) #Only the 10kL of intrerst is inc
 flow.new.sum.zero<-data.frame(flow.new.zero[jind.zero, ]) #This contains the 12 sort codes for 0 fish.
 
 
-flow.new.sum.dat$TCTmed<-jmed_flow.test #Works!
+flow.new.sum.dat$TCTmed<-jmed_flow.test 
 
 
-flow.new.sum.dat$TCTmean<-jmean_flow #Create 
-flow.new.sum.zero$TCTmean<-jmean_flow.zero  #
+flow.new.sum.dat$TCTmean<-jmean_flow  
+flow.new.sum.zero$TCTmean<-jmean_flow.zero  
 
 
 flow.new.sum.dat$FlowN<-as.numeric(flow.new.sum.dat$Flow)
@@ -335,12 +344,12 @@ flow.l.one.line=l.one.line
 l.one.line.mean=lm(formula = TCTmean ~ l2Flow, data = flow.new.sum.dat) #Same thing as l.one.lone but for mean.
 
 
-plot(jitter(log2(flow.new.sum.dat$FlowN)), flow.new.sum.dat$TCTmed, col=(flow.new.sum.dat$Tank-18),las=1, pch=(flow.new.sum.dat$Tank-18), xlab="Log2 (Flow)", ylab="Median Transformed CT")
-legend("topright", c("T19","T20","T21","T24"), col=c(1,2,3,6), pch=c(1,2,3,6), bty='n')
-legend(3,5,c("l.one.line"),col=c("red"), lty=c("solid"),bty='n')
-title("Median transformed CT by log2 Flow ")
+#plot(jitter(log2(flow.new.sum.dat$FlowN)), flow.new.sum.dat$TCTmed, col=(flow.new.sum.dat$Tank-18),las=1, pch=(flow.new.sum.dat$Tank-18), xlab="Log2 (Flow)", ylab="Median Transformed CT")
+#legend("topright", c("T19","T20","T21","T24"), col=c(1,2,3,6), pch=c(1,2,3,6), bty='n')
+#legend(3,5,c("l.one.line"),col=c("red"), lty=c("solid"),bty='n')
+#title("Median transformed CT by log2 Flow ")
 #abline(lr.test,col="blue",lty="dashed")
-abline(l.one.line,col="red",lty="solid")
+#abline(l.one.line,col="red",lty="solid")
 
 
 col.vec=as.factor(flow.new.sum.dat$Tank-18)
@@ -380,7 +389,7 @@ p2flow=ggplot(data=gframe_flow.med)+
 
 
 
-
+# Linear Regression on median
 l.one.line <- lm(TCTmed~l2Flow,data=flow.new.sum.dat)
 
 flow.new.sum.dat$TankF<-as.factor(flow.new.sum.dat$Tank)
@@ -391,15 +400,14 @@ l.four.line<-lm(TCTmed~l2Flow+TankF+l2Flow*TankF,data=flow.new.sum.dat)
 
 
 
-
+# Linear Regressions on Mean TCT
 l.one.line.mean=lm(formula = TCTmean ~ l2Flow, data = flow.new.sum.dat)
 l.tank.mean=lm(formula = TCTmean ~ l2Flow + TankF, data = flow.new.sum.dat)
 l.four.line.mean=lm(formula = TCTmean ~ l2Flow + TankF + l2Flow * TankF, data = flow.new.sum.dat)
 
 
 
-
-
+# Broken Stick
 bstick.lm.mean <- nls(TCTmean ~ cbind("intercept"=1, "l2Flow"=l2Flow, 
                                       "l2FlowBr"=ifelse(l2Flow > Br, l2Flow - Br, 0)),
                       start=list(Br=6), algorithm="plinear", data=flow.new.sum.dat)
@@ -409,14 +417,24 @@ rss1=(flow.new.sum.dat$TCTmean-pp)
 
 
 
+# Hyperbolic Tangent Models
+x1 <- seq(min(flow.new.sum.dat$TCTmean), max(flow.new.sum.dat$TCTmean), 0.1)
+xbs <- with(flow.new.sum.dat, seq(min(l2Flow), max(l2Flow), length=100))
 
+TCTmean.htan<-nls(TCTmean~cbind("intercept"=1,"B1"=l2Flow-br,"B2"=(l2Flow-br)*tanh((l2Flow-br)/gamma)), start=list(br=6.5,gamma=0.5),algorithm='plinear',nls.control(maxiter=10000),data=flow.new.sum.dat)
+
+
+# Lowess
+TCTmean.lowess <- lowess(flow.new.sum.dat$l2Flow, flow.new.sum.dat$TCTmean,f=3/4,iter=3)
+
+meanlowess.lm=lm(TCTmean.lowess$y~TCTmean.lowess$x)
+
+
+# Bent Cable
 
 model.bc.mean=bent.cable(flow.new.sum.dat$l2Flow,flow.new.sum.dat$TCTmean,grid.size =200)
 
 x.grid <- seq(min(flow.new.sum.dat$TCTmean), max(flow.new.sum.dat$TCTmean), length=200)
-
-
-
 
 
 new.seq4=seq(min(flow.new.sum.dat$l2Flow),max(flow.new.sum.dat$l2Flow),length=200)
@@ -459,46 +477,30 @@ flowfit200=data.frame(new.seq5$x,pz200[,1],pz200[,2],pz200[,3]) # Build a data f
 names(flowfit200)=c('x','fit','lower','upper')
 
 
-
 breaks=c(3,4,5,6,model.bc.mean$alpha,7.5,8,9,10)
 
-
-gz3=ggplot(data=flowfit200)+
+gz4=ggplot(data=flowfit200)+
   geom_point(data=new.tank,aes(x=Flow,y=Mean),shape=0)+
+  ylim(-2,20)+
   geom_line(aes(x=x,y=fit),size=1)+
   geom_ribbon(aes(x=x,ymin=lower, ymax=upper), alpha=0.3)+
   geom_line(aes(x=x,y=upper),linetype='dashed')+
   geom_line(aes(x=x,y=lower),linetype='dashed')+
-  geom_vline(aes(xintercept=model.bc.mean$alpha-ci),linetype='dashed')+
-  geom_vline(aes(xintercept=model.bc.mean$alpha+ci),linetype='dashed')+
-  geom_vline(aes(xintercept=model.bc.mean$alpha,3),linetype='solid')+
-  xlab("Log2 Water Volume (kL) diluted")+
+  geom_segment(aes(x=model.bc.mean$alpha-ci, y=-2, xend=model.bc.mean$alpha-ci, yend=6.6),linetype='dashed')+
+  geom_segment(aes(x=model.bc.mean$alpha+ci, y=-2, xend=model.bc.mean$alpha+ci, yend=1.3),linetype='dashed')+
+  geom_segment(aes(x=model.bc.mean$alpha, y=-2, xend=model.bc.mean$alpha, yend=2.2),linetype='solid')+
+  xlab("Log2 Water Volume (KL) diluted")+
   ylab("Mean Transformed CT")+
- ggtitle("Bent Cable Model for Mean TCT")+
+  ggtitle("Bent Cable Model for Mean TCT")+
   theme(panel.grid.minor = element_blank(),
         panel.background = element_blank(),axis.line = element_line(colour = "black"))+ 
-  scale_x_continuous(name="Log2 Water Volume (kL) diluted", breaks=breaks,labels=c('3','4','5','6',round(model.bc.mean$alpha,2),'7.5','8','9','10'))
+  scale_x_continuous(name="Log2 Water Volume (KL) diluted", 
+                     breaks=breaks,labels=c('3','4','5','6',round(model.bc.mean$alpha,2),'7.5','8','9','10'))+ scale_y_continuous(expand = c(0,0))
 
-
-
+# For plotting the niche models
 
 x <- seq(min(flow.new.sum.dat$TCTmed), max(flow.new.sum.dat$TCTmed), 0.1)
 
-TCTmed.htan<-nls(TCTmed~cbind("intercept"=1,"B1"=l2Flow-br,"B2"=(l2Flow-br)*tanh((l2Flow-br)/gamma)), start=list(br=6.5,gamma=0.5),algorithm='plinear',nls.control(maxiter=10000),data=flow.new.sum.dat)
 
 TCTmean.htan<-nls(TCTmean~cbind("intercept"=1,"B1"=l2Flow-br,"B2"=(l2Flow-br)*tanh((l2Flow-br)/gamma)), start=list(br=6.5,gamma=0.5),algorithm='plinear',nls.control(maxiter=10000),data=flow.new.sum.dat)
-
-
-p2<-coef(TCTmean.htan)
-
-
-ptan=plot(flow.new.sum.dat$l2Flow,flow.new.sum.dat$TCTmean,xlim=c(3,10),ylim=c(0,18),xlab="Log2(Flow)",ylab="Mean Transformed Ct",main="Tanh model for Mean TCT",las=1)
-lines(x,p2[3]+p2[4]*(x-p2[1])+p2[5]*(x-p2[1])*tanh((x-p2[1])/p2[2]),lwd=1,lty=1,col=6)
-plot(x=jitter(log2(flow.new.sum.dat$FlowN)),y=residuals(TCTmean.htan),ylab="Residual",xlab="Log2(Flow)",col=col_bluevec,pch=col_bluevec,main="Residuals for hyperbolic tangent model on Mean TCTs",xaxt='n')
-abline(h=0)
-axis(1,at=ynum,ynum.char)
-
-
-TCTmean.lowess <- lowess(flow.new.sum.dat$l2Flow, flow.new.sum.dat$TCTmean,f=3/4,iter=3)
-
 
