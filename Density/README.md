@@ -1,1 +1,1 @@
-This folder contains the R code to run the density data and produce the density plots. To run this file you need to have the density data saved in your working directory.
+This folder contains the R code to run the density data and produce the density plots. To run this file you need to have the density data saved in your working directory. There are two required density datasets; "DensityDataUpdated.csv", and "densitybiomassoriginal.csv".
