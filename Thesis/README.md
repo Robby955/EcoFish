@@ -2,4 +2,6 @@ This contains a pdf version of my final thesis. It also contains the latex files
 
 This folder alone recreates the thesis. You create the file using the mainthesisUVIC.tex document. You need the image chapters saved in the same folder along with the frontmatter.
 
+There are two bib files because Uvicbib works on windows, while Uvicbib.bib is needed on Mac. Thus, including both allows it to render on either platform.
+
 To recreate the thesis, you will need to have Latex installed and the correct packages updated.
