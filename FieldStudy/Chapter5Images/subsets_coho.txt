@@ -1,0 +1,6 @@
+Subset selection object
+Call: regsubsets.formula(MeanTCTCo ~ CO.Biomass.g.m3 + Transect.Flow.cms + 
+    CO.Biomass.g.m3 * Transect.Flow.cms + Water.Temperature.C + 
+    pH + eDNA.Distance.from.Shore.m + eDNA.Total.Water.Depth.m, 
+    data = field.collapse, nvmax = 7)
+7 Variables  (and intercept)
