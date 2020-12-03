@@ -1,0 +1,64 @@
+
+\startchapter{Conclusions and Future Work}
+\label{chapter:Conclusions}
+
+\section{Overview}
+
+This research and analysis brought together the disciplines of statistics, biochemistry, microbiology and genetics to provide further validation of several key concepts regarding environmental DNA.  
+
+
+\vspace{5mm}
+In the density experiment, varying numbers of Coho salmon were placed in large tanks and water samples were collected after allowing some time for the fish to swim in the tanks. Water samples were stored and transferred to the lab where they were tested for DNA integrity. Samples that passed integrity tests were then analyzed using Real-time polymerase chain reactions. This process used a thermal cycler to monitor the amplification of  Coho specific target DNA. Detection of target DNA in the thermal cycler results in the release of fluorescence, visible to the researcher. When target molecule concentrations are very low, we expect that we will need several `cycles' in order to detect the DNA (and hence several cycles needed to produce fluorescence). On the other hand, when target DNA is highly concentrated, we expect many less cycles to detect DNA. The number of cycles taken to produce fluorescence is referred to as the Cycle threshold, or simply `CT'. We chose to work with a monotone transformed version, TCT which was simply 50-CT. TCT should always be positive, as beyond 50 cycles is equivalent to a `non-detection'.
+
+\vspace{5mm}
+Using the transformed CT (`TCT') values obtained via qPCR, we established a significant relationship between Coho biomass and detectable eDNA. This experiment confirmed what we would expect, as clearly more or larger fish would be expected to shed or release more DNA into their environments. One highlight of this experiment is a figure that summarizes many concepts into a clear and concise manner, Figure~\ref{fig:medct55}. This figure showed a strong relationship between the number of fish in a tank and the mean TCT measurements obtained. The $R^{2}$ for the model was nearly 0.75, indicating the model explained much of the variation in the dataset. Residual analysis was conducted that provided further validation that the models were performing well.
+
+\vspace{5mm}
+
+The second experiment we analyzed was the `dilution' experiment.  In this experiment, three juvenile Coho salmon were again placed in large tanks and left to equilibrate for several days. The fish were then removed, and samples were taken as the tank water drained and was replaced by fresh water (via an inflow pipe). We found that instead of a linear relationship, a more sophisticated model was needed. In particular, we needed a model that accounted for the point in which the water was completely diluted (the so called `breakpoint'), where qPCR no longer detected any eDNA. 
+\vspace{5mm}
+
+Still water ponds or lakes are only a fraction of all bodies of water. In reality, researchers will be taking measurements from all sorts of water systems, including those with strong currents and fast flows. We confirmed that increased flow rates result in lower amounts of detectable eDNA in the experiment. We were able to fit several niche models to explain the impact of flow on our TCT measurements. In the end we had success fitting a bent cable model, Figure~\ref{fig:bentcablemean} that captured much of the variation in the dataset.
+
+\vspace{5mm}
+
+The last set of data analyzed was actual field data obtained from several streams in British Columbia. Here we attempted to use what was found in the first two experiments (the impact of biomass and flow) to study these streams. 
+
+\vspace{5mm}
+
+In addition, the field data allowed us to implement covariate analysis, whereby we were able to `tease' out the most important factors impacting eDNA collection and analysis. As expected, Coho density and flow rate were strongly more significant than other covariates such as eDNA sample depth. The analysis of field data provided an opportunity to connect the results of controlled experiments into the actual environment. Several statistical models were used and compared to validate field results. We used backward elimination to validate the important covariates, and we further confirmed the importance using best subset models and model averaging.
+
+\newpage
+
+\subsection{Future of eDNA technology}
+
+
+The possible applications of an in depth understanding of eDNA are seemingly endless. One could imagine a day where invasive techniques for biodiversity monitoring are discarded all together, in favour of non-invasive and less expensive eDNA methodologies. Much work is still required, especially regarding transferring knowledge gained in research labs to field data. Indeed, one of the most needed areas of continued research is to compare the performance of  differing eDNA analysis methods. This includes a wide variety of collection (different types and sizes of filters) and storage methods (such as freezing samples or analyzing immediately). Additional studies on a variety of species with differing characteristics and environmental factors will help to create a standard procedure of analysis. Even within a single species, weather and environmental conditions can greatly impact behaviour and metabolic processes. Studies have already confirmed that eDNA detection  probabilities can be greatly altered by seasonal activity of organisms \citep{seasonal}.
+\vspace{5mm}
+
+
+
+
+Currently, there is a need for more independent comparative studies, and eventually a method that can account for multiple species.
+The current lack of independent and quantitative comparisons of techniques makes it difficult to provide advice on which methods are best for a given species.
+While our results were promising for Coho, they were not as accurate for the other fish species tested \citep{noninvasive}. Moreover, it is not clear how well the methods discussed in this paper would work on extremely low concentration streams, or areas with extreme weather and fast-moving currents. Further research on these extreme conditions is still needed.
+
+
+\vspace{5mm}
+
+The study of eDNA is also now being utilized in the field of forensics. Indeed,  there is currently a large growing field of research is focused on  human identification
+without using human DNA, but instead exploiting the microbial signature left behind by individuals in their environment and possessions \citep{futureforensics}.
+
+
+
+\vspace{5mm}
+
+Another goal should be to involve community members. eDNA technologies and the associated analysis should not be limited to those in research labs. Indeed, eDNA technology has the potential to improve lives and improve communities. In order for eDNA technology to be utilized by the public or average citizens, several researchers have pointed out a need for a more user-friendly method of eDNA exploration and analysis \citep{globaleDNA}.
+\vspace{5mm}
+
+Regardless of the limitations, eDNA analysis is quickly becoming a valuable technique in the study of aquatic species in particular. Work is needed on creating a standardized method of collection and analysis \citep{limitations}. This could include future work on creating an `all in one' rapid on-site analysis, such as the eDNA backpack.
+
+\vspace{5mm}
+
+In summary, eDNA monitoring provides an environmentally friendly  alternative to biodiversity monitoring. Work is still needed to improve the speed and accuracy in which environmental samples can be analyzed.  The rapid development of DNA sequencing technology and assessment will likely accelerate the rate at which studies into eDNA are conducted. The speed and cost at which DNA is sequenced improves yearly and this will no doubt positively impact studies into environmental DNA. Moreover, as computers improve and can store more data, we can imagine a future whereby researchers can access and store important DNA sequences with a simple keystroke \citep{ecologicalfuture}.
+
