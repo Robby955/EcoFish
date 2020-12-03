@@ -1,0 +1,24 @@
+
+Call:
+lm(formula = MeanTCTCt ~ Water.Temperature.C + pH + CT.Biomass.g.m3 + 
+    Transect.Flow.cms, 
+data = field.collapse)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.2120 -0.3742 -0.0912  0.5151  2.1018 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)          6.37426    5.02637   1.268 0.210732    
+Water.Temperature.C  1.01396    0.10145   9.994 2.05e-13 ***
+pH                  -2.14087    0.54340  -3.940 0.000258 ***
+CT.Biomass.g.m3     -0.05147    0.01450  -3.550 0.000863 ***
+Transect.Flow.cms   -0.30831    0.14877  -2.072 0.043510 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.059 on 49 degrees of freedom
+Multiple R-squared:  0.8934,	Adjusted R-squared:  0.8847 
+F-statistic: 102.7 on 4 and 49 DF,  p-value: < 2.2e-16
+

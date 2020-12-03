@@ -1,0 +1,52 @@
+
+Call:
+model.avg(object = ma.rainbow, subset = delta < 4)
+
+Component model call: 
+lm(formula = MeanTCTRb ~ <4 unique rhs>, 
+data = field.collapse)
+
+
+Term Codes:
+eDNA.Distance.from.Shore.m: 1
+eDNA.Total.Water.Depth.m: 2 
+pH: 3
+RB.Biomass.g.m3:   4
+Transect.Flow.cms: 5
+Water.Temperature.C: 6
+RB.Biomass.g.m3:Transect.Flow.cms: 7
+
+
+Component models: 
+        df  logLik   AICc delta weight
+134567   8 -104.76 228.71  0.00   0.58
+1234567  9 -104.55 231.20  2.49   0.17
+13457    7 -107.47 231.37  2.66   0.15
+34567    7 -107.86 232.15  3.44   0.10
+
+
+Model-averaged coefficients:  
+(full average) 
+                                   Estimate Std. Error Adjusted SE z value Pr(>|z|)    
+(Intercept)                       -55.23056   15.92515    16.19530   3.410 0.000649 ***
+eDNA.Distance.from.Shore.m         -0.44811    0.24969     0.25386   1.765 0.077532 .  
+pH                                  7.00291    1.57845     1.60755   4.356 1.32e-05 ***
+RB.Biomass.g.m3                     0.04071    0.03914     0.04006   1.016 0.309428    
+Transect.Flow.cms                  -0.47127    0.31567     0.32304   1.459 0.144612    
+Water.Temperature.C                 0.45021    0.29539     0.29993   1.501 0.133344    
+RB.Biomass.g.m3:Transect.Flow.cms   0.15154    0.05841     0.05965   2.540 0.011070 *  
+eDNA.Total.Water.Depth.m            0.23628    1.11991     1.14348   0.207 0.836298    
+ 
+(conditional average) 
+                                   Estimate Std. Error Adjusted SE z value Pr(>|z|)    
+(Intercept)                       -55.23056   15.92515    16.19530   3.410 0.000649 ***
+eDNA.Distance.from.Shore.m         -0.49970    0.20915     0.21468   2.328 0.019928 *  
+pH                                  7.00291    1.57845     1.60755   4.356 1.32e-05 ***
+RB.Biomass.g.m3                     0.04071    0.03914     0.04006   1.016 0.309428    
+Transect.Flow.cms                  -0.47127    0.31567     0.32304   1.459 0.144612    
+Water.Temperature.C                 0.53156    0.24450     0.25094   2.118 0.034155 *  
+RB.Biomass.g.m3:Transect.Flow.cms   0.15154    0.05841     0.05965   2.540 0.011070 *  
+eDNA.Total.Water.Depth.m            1.42005    2.42008     2.48544   0.571 0.567765    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+

@@ -1,0 +1,24 @@
+
+Call:
+lm(formula = MeanTCTEf ~ Transect.Flow.cms + pH + Fish.Biomass.g.m3 + 
+    Transect.Flow.cms:Fish.Biomass.g.m3, 
+data = field.removeef)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.6188 -0.5725  0.1032  0.6946  2.5055 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(>|t|)  
+(Intercept)                          9.7641663  4.0772817   2.395   0.0206 *
+Transect.Flow.cms                   -0.0841080  0.1810530  -0.465   0.6444  
+pH                                   1.0664736  0.5148347   2.071   0.0437 *
+Fish.Biomass.g.m3                   -0.0001366  0.0096998  -0.014   0.9888  
+Transect.Flow.cms:Fish.Biomass.g.m3 -0.0199482  0.0240409  -0.830   0.4108  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.195 on 48 degrees of freedom
+Multiple R-squared:  0.1708,	Adjusted R-squared:  0.1017 
+F-statistic: 2.472 on 4 and 48 DF,  p-value: 0.05694
+

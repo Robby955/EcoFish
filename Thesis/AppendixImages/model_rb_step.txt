@@ -1,0 +1,26 @@
+
+Call:
+lm(formula = MeanTCTRb ~ pH + Transect.Flow.cms + Water.Temperature.C + 
+    RB.Biomass.g.m3 + eDNA.Distance.from.Shore.m + Transect.Flow.cms:RB.Biomass.g.m3, 
+    data = field.collapse)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.6985 -1.1142 -0.0279  1.0255  4.3280 
+
+Coefficients:
+                                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                       -58.93243   13.30507  -4.429 5.62e-05 ***
+pH                                  7.33900    1.34999   5.436 1.90e-06 ***
+Transect.Flow.cms                  -0.43015    0.29662  -1.450  0.15365    
+Water.Temperature.C                 0.53657    0.24086   2.228  0.03072 *  
+RB.Biomass.g.m3                     0.04778    0.03705   1.290  0.20345    
+eDNA.Distance.from.Shore.m         -0.49597    0.20726  -2.393  0.02076 *  
+Transect.Flow.cms:RB.Biomass.g.m3   0.16648    0.05260   3.165  0.00272 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.805 on 47 degrees of freedom
+Multiple R-squared:  0.6052,	Adjusted R-squared:  0.5548 
+F-statistic: 12.01 on 6 and 47 DF,  p-value: 3.947e-08
+
