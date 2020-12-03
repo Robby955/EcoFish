@@ -1,7 +1,6 @@
 # Analysis of Field Data set.
 
 #Set your working directory to where you have "EcoFieldUp.csv" saved.
-setwd('C:/Users/User/Desktop/RCodeRobby/Data')
 
 
 # Load libraries and packages.
@@ -31,7 +30,7 @@ fieldData=fieldData%>%
 fieldData$SSRS=paste(fieldData$Stream.Code,fieldData$Sample,fieldData$Reach,fieldData$Site.number) #Creates a unique identifier for each set of tech replicates Stream/Sample/Reach/Site
 #Create new columns to assist in coding and plotting.
 
-fieldData$ID=fieldData$ï..ID #Create a column ID to replace the odd symbol name.
+fieldData$ID=fieldData$Ã¯..ID #Create a column ID to replace the odd symbol name.
 
 fieldData$Site.numberF=as.factor(fieldData$Site.number) #Create a site number as a factor column.
 
