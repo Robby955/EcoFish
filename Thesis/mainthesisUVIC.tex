@@ -1,0 +1,70 @@
+\documentclass[12pt,oneside]{book}
+\include{macros/style}
+\include{macros/use_packages}
+\bibliographystyle{apalike}
+
+\usepackage{natbib}
+\usepackage{pdfpages}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage[export]{adjustbox}
+\usepackage{setspace}
+
+
+
+\begin{document}
+
+
+
+\input frontmatter/fm
+
+
+% Front Matter
+
+
+
+
+\newpage
+
+\include{chapters/1/chapter_intro}
+\include{chapters/2/chapter_problem}
+\include{chapters/2/environmental_factors} 
+\include{chapters/3/chapter_new}
+\include{chapters/3/density_summarystatistics}
+\include{chapters/3/density_plots}
+\include{chapters/3/density_models}
+\include{chapters/3/density_models_mean}
+\include{chapters/3/robust_models}
+\include{chapters/3/density_residuals}
+\include{chapters/3/conclusions}
+\include{chapters/4/chapter_experiments}
+\include{chapters/4/flow_plots}
+\include{chapters/4/flow_models}
+\include{chapters/4/flow_models_mean}
+\include{chapters/4/alt_models}
+\include{chapters/4/flow_conclusions}
+\include{chapters/5/field_alt}
+\include{chapters/5/PCA}
+\include{chapters/5/field_conclusions}
+\include{chapters/6/conclusions}
+
+\appendix
+\input appendix/chapter_app
+
+% The style of bibliography exemplified here is the "apalike"
+
+
+% The Bibliography file is a BibTex file named
+% UVicBib.bib and called below
+
+	\TOCadd{Bibliography}
+	\bibliography{UvicBib}
+
+
+\end{document}
+
+
+
