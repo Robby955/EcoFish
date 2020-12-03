@@ -1,5 +1,7 @@
 # EcoFish
 
+To create the Thesis, download the Zip file of this repo. Then, run mainthesisUVIC.tex to create the thesis.
+
 
 ![What is this](Images/fish2.png)
 
