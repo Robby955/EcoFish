@@ -1,11 +1,11 @@
 # This R script runs the density data analysis.
-# It creates several plots and summarry statistics as well.
+# It creates several plots and summary statistics as well.
 
 #We don't want many extra digits
 options(digits=2)
 
 #Set your working directory to where you have "DensityDataUpdated.csv" and "densitybiomassoriginal.csv" saved.
-#These should be in the data folder of the repo.
+#These are located in the Data folder of the repo.
 
 
 # Load packages and libraries.
@@ -32,7 +32,7 @@ eco.dat<-read.csv("DensityDataUpdated.csv",fileEncoding="UTF-8-BOM")
 #Check out the original dimension.
 print(paste("The original dimension of the dataset is", nrow(eco.dat),"by",ncol(eco.dat)))
 
-#Remove unimportant/blank columns that appeared in the raw data.
+#Remove unimportant/blank columns that appeared in the raw data. Also assign better names.
 eco.dat <- eco.dat[,-(22:39)]
 eco.dat$TCT<-eco.dat$Transformed.Ct..50.001.Ct.
 eco.dat$CT<-eco.dat$Adjusted.Ct...N.A.50.
@@ -813,6 +813,7 @@ gframe$tank_shape[gframe$Tank=='magenta']=6
 gframe$tankf=as.factor(gframe$tank_shape)
 
 
+# Create ggplotnew.pdf
 gg_simple_median=ggplot(data=gframe)+
   geom_point(mapping=aes(x=l2biom,y=eco.med,colour=tankf,shape=tankf))+
   scale_shape_manual(name="Tank",values=c(1,2,3,6),labels=c("T19","T20","T21","T24"))+
@@ -832,6 +833,7 @@ common_slope=lmparallel.tfac$coefficients[2]
 
 #ggsave("ggplotnew.pdf",gg_simple_median,width=6,height=6,dpi=400)
 
+# Create parfits.pdf
 gg_par_median=ggplot(data=gframe)+
   geom_point(mapping=aes(x=l2biom,y=eco.med,colour=tankf,shape=tankf))+
   scale_shape_manual(name="Tank",values=c(1,2,3,6),labels=c("T19","T20","T21","T24"))+
@@ -860,7 +862,7 @@ gg_par_median=gg_par_median+ theme(
 
 
 
-
+# Create ggplotnew.png
 
 gg_tank_linear=ggplot(data=gframe)+
   geom_point(mapping=aes(x=l2biom,y=eco.med,colour=tankf,shape=tankf))+
@@ -892,7 +894,7 @@ common_mean_slope=lmparallel.mean$coefficients[2]
 gframe.mean=data.frame(l2biom,eco.mean,eco.sum.dat$Tank-18,eco.sum.dat$Tank-18)
 names(gframe)=c("l2biom","eco.mean","Tank","tank_shape")
 
-
+# Assign custom color to factor levels
 gframe.mean$Tank[gframe$Tank==1]="black"
 gframe.mean$Tank[gframe$Tank==2]="red"
 gframe.mean$Tank[gframe$Tank==3]="green"
@@ -998,6 +1000,7 @@ l.tankregression<-lm(meanV~l2biomTank,data=new.tank) # This is the model that gg
 
 l.tankregression.med<-lm(medV~l2biomTank,data=new.tankmed)
 
+# Create custom kable
 
 coef_names=c("Intercept","Log2(BiomPerTank)")
 lonelineinter=coef(l.one.line)[1]
@@ -1020,6 +1023,7 @@ ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 options(digits=3)
+# Create custom kable
 
 nn=c('l.one.line','lmparallel.tfac','lfull.tfac','l.tankregression.med','l.one.line.mean','lmparallel.tfac.mean','lfull.tfac.mean','l.tankregression')
 n2=c('Median TCT','Median TCT','Median TCT','Median TCT','Mean TCT','Mean TCT','Mean TCT','Mean TCT')
@@ -1057,8 +1061,7 @@ ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 
-
-#summary(l.tankregression)$r.squared #The R^2 value of 0.748 adjusted R squared of 0.7383
+# Create plot of mean TCT collapsed over tank
 
 gn=ggplot(data=new.tank)+
   geom_point(mapping=aes(x=l2biomTank,y=meanV),shape=0)+
@@ -1120,6 +1123,7 @@ lineartank20.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==20))
 lineartank21.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==21))
 lineartank24.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==24))
 
+# Create custom kable
 
 kt2.intercept=c(coef(lineartank19.mean)[1],coef(lineartank20.mean)[1],coef(lineartank21.mean)[1],coef(lineartank24.mean)[1])
 kt2.slope=c(coef(lineartank19.mean)[2],coef(lineartank20.mean)[2],coef(lineartank21.mean)[2],coef(lineartank24.mean)[2])
@@ -1217,13 +1221,10 @@ col_bluevec[col_bluevec==3]=4
 #title("Residuals for lmparallel.tfac")
 
 
-
-
-
-col_bluevec=eco.sum.dat$Tank-18
+  col_bluevec=eco.sum.dat$Tank-18
 col_bluevec[col_bluevec==3]=4
 
-
+# Create residul plots for some models, this creates residuals2.pdf
 #pdf(file='residuals2.pdf')
 par(mfrow=c(2,2))
 
@@ -1241,8 +1242,3 @@ abline(h=0)
 title("Residuals for linear fit lfull.tfac \nwith Tank and Interaction")
 #dev.off()
 
-
-
-
-
-#ggsave('ltankregressionresid.pdf',width=6,height=6,dpi=500)
