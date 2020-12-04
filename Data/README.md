@@ -1,1 +1,1 @@
-This folder contains the data used in the thesis. To run the R codes, you need to have the corresponding data in your working directory.
+This folder contains the data used in the thesis. To run the R codes, you need to have the corresponding data in your working directory. This means that when running the R code, set the working directory to this folder that contains all the datasets.
