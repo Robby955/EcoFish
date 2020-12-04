@@ -1,9 +1,11 @@
 # This R script runs the density data analysis.
+# It creates several plots and summarry statistics as well.
 
-
+#We don't want many extra digits
 options(digits=2)
 
 #Set your working directory to where you have "DensityDataUpdated.csv" and "densitybiomassoriginal.csv" saved.
+#These should be in the data folder of the repo.
 
 
 # Load packages and libraries.
@@ -15,8 +17,8 @@ library(fit.models) #For fitting some models
 library(robust) #For robust analysis
 library(tinytex) #For latex 
 library(lme4) #For fitting linear mixed effect models
-library(ggplot2)
-library(ggthemes)
+library(ggplot2) # For plotting
+library(ggthemes) # For additional themes to ggplot
 library(investr) #For calibration
 library(latex2exp) #For latex in ggplots
 library(broom) # plotting residuals in ggplot
@@ -79,10 +81,10 @@ eco.dat$Fish[fish.ind16] <- 16
 eco.dat$Fish[fish.ind32] <- 32
 eco.dat$Fish[fish.ind65] <- 65
 
-eco.dat$TankF<-as.factor(eco.dat$Tank) #Add new column, tank as factor. 
+eco.dat$TankF<-as.factor(eco.dat$Tank) #Add new column, Tank as factor. 
 eco.dat$FishF<-as.factor(eco.dat$Fish) #Add new column, Fish as factor.
 
-# Manually assign dates according to experiment.
+# Manually assign dates according to experimental schedule.
 
 dp='08-12' # Pilot experiment date.
 d1='08-19' # The official experiment began on August 19, 2015 and continued through that week on a daily basis.
@@ -95,7 +97,7 @@ d7='08-25'
 
 eco.dat$Date<-"NA"
 
-eco.dat$Date[fish.ind1] <- d1 # The number of fish was doubled each day, starting at 1 fish.
+eco.dat$Date[fish.ind1] <- d1 # The number of fish was ~doubled each day, starting at 1 fish.
 eco.dat$Date[fish.ind2] <- d2
 eco.dat$Date[fish.ind4] <- d3
 eco.dat$Date[fish.ind8] <- d4
@@ -103,7 +105,7 @@ eco.dat$Date[fish.ind16] <- d5
 eco.dat$Date[fish.ind32] <- d6
 eco.dat$Date[fish.ind65] <- d7
 
-#Sort codes 141-161 were taken three a day starting on August 19.
+#Sort codes 141-161 were taken three times a day starting on August 19.
 
 for(i in 1:nrow(eco.dat)){
   if(eco.dat[i,]$Sort.Code %in% c(141:143)){
@@ -132,10 +134,13 @@ for(i in 1:nrow(eco.dat)){
   }
 }
 
+# Read in the biomass data.
 
 mass.original <- read.csv('densitybiomassoriginal.csv', stringsAsFactors = FALSE, 
                           na.strings=c("NA", "NaN", "", 0),fileEncoding="UTF-8-BOM")
 
+
+# Extract important features from mass raw data   
 mass.original.sub <- mass.original[10:16, 8:14]
 mass.original.sub <- mass.original.sub[,-c(2, 4, 6)] #Remove unneeded columns
 iTank.original <- unique(mass.original$Tank) #Find the tank numbers
@@ -239,7 +244,9 @@ init.frame<-data.frame(init.frame)
 
 init.frame <- setNames(init.frame, c("Fish","Tank","Min TCT","Max TCT","Median TCT","Mean TCT"))
 
-k3=kable(init.frame, caption="Summary of TCTs by Tank and Fish over samples and techincal replicates.",booktabs=T,format='latex')%>%
+# Create the third kable
+  
+  k3=kable(init.frame, caption="Summary of TCTs by Tank and Fish over samples and techincal replicates.",booktabs=T,format='latex')%>%
   kable_styling(latex_options = 'striped')
 
 
@@ -251,6 +258,8 @@ new.frame<-data.frame(new.frame)
 
 new.frame<-setNames(new.frame,c("Date (2015)","Fish","Tank","Sort Code","Min TCT","Max TCT","Median TCT","Mean TCT"))
 
+# Create the fourth table
+  
 k4=kable(new.frame,caption="Zero Fish Summary-Pilot study.",format='latex',booktabs=T)%>%
   kable_styling(latex_options = 'striped',full_width = TRUE)
 
@@ -262,6 +271,7 @@ new.frame2<-data.frame(new.frame2)
 
 new.frame2<-setNames(new.frame2,c("Fish","Tank","Sort Code","Min TCT","Max TCT","Median TCT","Mean TCT"))
 
+# Create the fifth kable
 
 k5=kable(new.frame2,caption="Zero Fish Summary",format='latex',booktabs=T)%>%
   kable_styling(latex_options = 'striped',full_width = TRUE)
@@ -348,13 +358,15 @@ eco.dat$numFish <- factor(eco.dat$numFish,levels=c('0 Fish','1 Fish','2 Fish','4
 
 eco.dat$numT<- factor(eco.dat$numtank,levels=c('Tank 1','Tank 2','Tank 3','Tank 4','Tank 19','Tank 20','Tank 21','Tank 24'))
 
-
+# Set up a jitter for x axis
 jitter <- position_jitter(width = 0.15, height =0)
 
 #Set up a labelling parameter.
 
 new_labels <- c("1" = "Tank 19", "2" = "Tank 20", "3" = "Tank 21", "4" = "Tank 24")
 
+# Create gt.pdf
+  
 gz_fish=ggplot(data=eco.dat%>%filter(Fish!=0))+
   geom_point(mapping=aes(x=Sample.replicate,y=TCT),alpha=0.5,position=jitter)+
   facet_grid(numFish~numtank)+
@@ -369,6 +381,7 @@ rtt=range(141,161) # Select range of sort code for which we which to exclude.
 `%notin%` <- Negate(`%in%`) #Define a negation operator.
 
 
+# Create gz2.pdf
 gz_zerofish=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141:161))+
   geom_point(mapping=aes(x=Sample.replicate,y=TCT),position=jitter,alpha=0.5)+
   facet_wrap(numFish~numT,nrow=2)+
@@ -378,7 +391,8 @@ gz_zerofish=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141
 #ggsave('gz2.pdf',gz_zerofish,width=6,height=6,dpi=400)
 
 
-gz_zerofish2=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141:161))+
+# Create gz3.pdf
+ gz_zerofish2=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141:161))+
   geom_point(mapping=aes(x=Sample.replicate,y=TCT),position=jitter,alpha=0.5)+
   facet_wrap(.~numT,nrow=2)+
   ylim(0,20)+
@@ -388,7 +402,8 @@ gz_zerofish2=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 14
 #ggsave('gz3.pdf',gz_zerofish2,width=6,height=6,dpi=400)
 
 
-eco.dat$NewCode=0
+# Additional Zero fish
+  eco.dat$NewCode=0
 
 for(i in 1:nrow(eco.dat)){
   if(eco.dat[i,'Lab.Code'] %in% c('0.01.0.1','0.01.0.2', '0.01.0.3' )){
@@ -414,7 +429,7 @@ for(i in 1:nrow(eco.dat)){
   }
 }
 
-
+# Create gz3.pdf
 gz_morezeros=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %in% 141:161))+
   geom_point(mapping=aes(x=Sample.replicate,y=TCT),position=jitter,alpha=0.5)+
   facet_wrap(NewCode~.,nrow=2)+
@@ -426,6 +441,9 @@ gz_morezeros=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %in% 141:1
 
 #ggsave('gz3.pdf',gz_morezeros,width=6,height=6,dpi=400)
 
+
+# Set up dataframes for modeling
+  
 eco.dats <- eco.dat[order(eco.dat$Sort.Code),] ##Re-sorts our data in order of increasing sortcode 
 
 #picks off first occurrence of a distinct Sort.Code, assume data sorted by Sort.Code
@@ -446,6 +464,7 @@ eco.sum.dat$TCTsd <- tapply(eco.dats$Transformed.Ct..50.001.Ct., factor(eco.dats
 eco.sum.dat <- eco.sum.dat[eco.sum.dat$Fish!=0,] # Ignore zero fish for now.
 
 
+# Populate biomass column
 for(i in iFish){
   for(j in iTank){
     eco.dat$TbioM[eco.dat$Fish==i & eco.dat$Tank==j] <- 
@@ -486,14 +505,15 @@ tankFm<-as.matrix(tankF)
 
 options(digits=2)
 
-
+  
+# Form simple median models.
 l.one.line<-lm(TCTmed~l2biom,data=eco.sum.out.dat) #Simple linear model based on just biomass.
 lmparallel.tfac<-lm(TCTmed~l2biom+tankF,data=eco.sum.out.dat) #Biomass and Tank as a factor.
 lfull.tfac<-lm(TCTmed~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
 
 
 
-
+# Form simple mean models.
 
 l.one.linem<-lm(TCTmean~l2biom,data=eco.sum.out.dat) #Simple linear model based on just biomass.
 lmparallel.tfacm<-lm(TCTmean~l2biom+tankF,data=eco.sum.out.dat) #Biomass and Tank as a factor.
@@ -501,6 +521,7 @@ lfull.tfacm<-lm(TCTmean~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include
 
 az=anova(l.one.linem,lmparallel.tfacm,lfull.tfacm)
 
+# Create custom kable
 term_name=c("Intercept","Log2(Biomass")
 kcoef=c(round(coef(l.one.linem)[[1]],2),round(coef(l.one.linem)[[2]],2))
 kse=c(0.40,0.07)
@@ -517,6 +538,7 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 
+# Create custom kable
 
 term_name=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24")
 kcoef=c(round(coef(lmparallel.tfacm)[[1]],2),round(coef(lmparallel.tfacm)[[2]],2),round(coef(lmparallel.tfacm)[[3]],2),round(coef(lmparallel.tfacm)[[4]],2),
@@ -525,6 +547,7 @@ kse=c(0.39,0.06,0.32,0.32,0.32)
 tval=c(31.1,17.5,1.8,-5.3,2.0)
 pval=c('<2e-16','<2e-16',"0.07","4.6e-07","0.04")
 
+# Create custom kable
 
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
 names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
@@ -555,6 +578,7 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 
+# Create custom kable
 
 coef_names=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24","Log2(Biomass):Tank20","Log2(Biomass):Tank21","Log2(Biomass):Tank24")
 coef_terms=c(round(coef(lfull.tfac)[[1]],2),round(coef(lfull.tfac)[[2]],2),round(coef(lfull.tfac)[[3]],1),round(coef(lfull.tfac)[[4]],2),round(coef(lfull.tfac)[[5]],2),
@@ -616,7 +640,8 @@ ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 options(digits=3)
-# Make kables
+# Create custom kable
+
 
 coef_names=c("Intercept","Log2(Biomass)")
 lonelineinter=coef(l.one.line)[1]
@@ -651,6 +676,8 @@ eco.md<-as.matrix(eco.sum.out.dat$TCTmed,nrow=1,ncol=nrow(eco.sum.out.dat))
 
 anova_med=anova(l.one.line,lmparallel.tfac,lfull.tfac,test='F') #anova to compare the three models. Additional sum of squares prinicpal and the F test indicates significant of our l4parallel.
 
+# Robust models
+  
 lr<-robust::lmRob(eco.md~l2biom,data=eco.sum.out.dat) #Simple robust model based on just biomass.
 lrparallel.tfac<-robust::lmRob(eco.md~l2biom+tankF,data=eco.sum.out.dat) #Robust model with biomass and tank as a factor.
 lrfull.tfac<-robust::lmRob(eco.md~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
@@ -659,6 +686,7 @@ anova.lmRob(lr,lrparallel.tfac,lrfull.tfac)  #anova on robust models. #Model wit
 
 #Extract coefficients from these three robust models.
 
+# Create custom kable
 
 
 coef_names=c("Terms","DF","RobustF","Pr(F)")
@@ -676,7 +704,7 @@ ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 
-
+# Robust Coefficients
 
 lrcoef=coef(lrfull.tfac)
 
@@ -685,6 +713,7 @@ t20coef.robust=c(lrcoef[1]+lrcoef[3],lrcoef[2]+lrcoef[6])
 t21coef.robust=c(lrcoef[1]+lrcoef[4],lrcoef[2]+lrcoef[7])
 t24coef.robust=c(lrcoef[1]+lrcoef[5],lrcoef[2]+lrcoef[8])
 
+# Create custom kable
 
 term_name=c("Intercept","Log2(Biomass)")
 kcoef=c(round(coef(lr)[[1]],1),round(coef(lr)[[2]],2))
@@ -716,6 +745,7 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
 
 
 
+# Create custom kable
 
 
 term_name=c("Intercept","Log2(Biomass)","Tank20","Tank21","Tank24","Log2(Biomass):Tank20",'Log2(Biomass):Tank21','Log2(Biomass):Tank24')
@@ -746,6 +776,7 @@ lineartank21<-lm(TCTmed~l2biom, data=eco.sum.out.dat, subset=(TankF==21))
 lineartank24<-lm(TCTmed~l2biom, data=eco.sum.out.dat, subset=(TankF==24))
 
 
+# Create custom kable
 
 kt.intercept=c(coef(lineartank19)[1],coef(lineartank20)[1],coef(lineartank21)[1],coef(lineartank24)[1])
 kt.intercept_std=c(0.53,0.66,0.64,0.54)
