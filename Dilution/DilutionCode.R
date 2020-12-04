@@ -1,11 +1,10 @@
 # Dilution Analysis
 
 # Note that the Bent Cable fitting searches a large grid of possible values, so don't be alarmed
-# if it takes 30seconds to fit.
+# if it takes 30+ seconds to fit.
+# Saving plots is commented out.
 
-
-# Set WD to location where "Flow_experiment_complete-070419MJA.csv" is saved.
-setwd('C:/Users/User/Desktop/RCodeRobby/Data')
+# Set the working directory to location where "Flow_experiment_complete-070419MJA.csv" is saved.
 
 
 #Load libraries.
@@ -617,7 +616,7 @@ gz4=ggplot(data=flowfit200)+
   scale_x_continuous(name="Log2 Water Volume (KL) diluted", 
                      breaks=breaks,labels=c('3','4','5','6',round(model.bc.mean$alpha,2),'7.5','8','9','10'))+ scale_y_continuous(expand = c(0,0))
 
-
+gz4
 
 #ggsave('flowggplot1.pdf',gz4,width=6,height=6,dpi=500)
 
@@ -642,11 +641,11 @@ p.tanh<-coef(TCTmean.htan)
 p <- coef(bstick.lm.mean)
 
 #pdf(file='meanTCTmodelcomparison.pdf')
-#plot(flow.new.sum.dat$l2Flow,flow.new.sum.dat$TCTmean,xlab="Log2 Flow (KL)",ylab="Mean TCT",las=1)
-#lines(TCTmean.lowess,col='green')
-#lines(x1,p.tanh[3]+p.tanh[4]*(x1-p.tanh[1])+p.tanh[5]*(x1-p.tanh[1])*tanh((x1-p.tanh[1])/p.tanh[2]),lwd=1,lty='solid',col='purple')
-#lines(x.grid, predict(model.bc.mean, x.grid),lty='solid',col='blue')
-##lines(xbs, p[2] + p[3]*xbs + ifelse(xbs>p[1], p[4]*(xbs-p[1]), 0), lwd=2, lty='solid', col='red')
-#legend("topright",c("Lowess","Tanh","Bent Cable","Broken Stick"),col=c("green","purple","blue","red"),lty=rep('solid',4))
+plot(flow.new.sum.dat$l2Flow,flow.new.sum.dat$TCTmean,xlab="Log2 Flow (KL)",ylab="Mean TCT",las=1)
+lines(TCTmean.lowess,col='green')
+lines(x1,p.tanh[3]+p.tanh[4]*(x1-p.tanh[1])+p.tanh[5]*(x1-p.tanh[1])*tanh((x1-p.tanh[1])/p.tanh[2]),lwd=1,lty='solid',col='purple')
+lines(x.grid, predict(model.bc.mean, x.grid),lty='solid',col='blue')
+lines(xbs, p[2] + p[3]*xbs + ifelse(xbs>p[1], p[4]*(xbs-p[1]), 0), lwd=2, lty='solid', col='red')
+legend("topright",c("Lowess","Tanh","Bent Cable","Broken Stick"),col=c("green","purple","blue","red"),lty=rep('solid',4))
 #dev.off()
 
