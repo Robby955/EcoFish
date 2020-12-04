@@ -3,8 +3,8 @@
 
 options(digits=2)
 
-#Set your working directory to where you have "DensityDataUpdated.csv" saved.
-setwd('C:/Users/User/Desktop/RCodeRobby/Data')
+#Set your working directory to where you have "DensityDataUpdated.csv" and "densitybiomassoriginal.csv" saved.
+
 
 # Load packages and libraries.
 library(knitr) #For rendering output to pdf
