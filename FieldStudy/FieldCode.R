@@ -1,4 +1,4 @@
-# Analysis of Field Data set.
+# This is the R code for Analysis of Field Data set (Chapter 5).
 
 #Set your working directory to where you have "EcoFieldUp.csv" saved.
 
@@ -310,8 +310,6 @@ gg_BBB_Biomass=ggplot(data=BBB.frame,mapping=aes(x=Species,y=Biomass,fill=Site,l
   xlab("Species")+
   ylab("Total Biomass (g)")+
   theme_minimal()
-
-
 
 
 
@@ -702,25 +700,6 @@ model_co=lm(MeanTCTCo~CO.Total.Biomass.g, data=field.collapse)
 
 model_EF3=lm(MeanTCTEf~Fish.Total.Biomass.g, data=field.collapse) 
 
-# Make the Kable coholinearfield.pdf
-
-term_name=c("Intercept","Coho Biomass (g)")
-kcoef=c(round(coef(model_co)[[1]],2),round(coef(model_co)[[2]],2))
-kse=c(0.35,0.26)
-tval=c(2.70,8.83)
-pval=c('0.009','6.3e-12')
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-
-
-
 
 model_ct=lm(MeanTCTCt~CT.Total.Biomass.g, data=field.collapse) 
 #R^2 of 0.716 and adjusted R^2 of 0.711
@@ -780,8 +759,6 @@ gg_CO2=ggplot(data=field.collapse)+
 
 
 
-
-
 gg_CT2=ggplot(data=field.collapse)+
   geom_point(mapping=aes(x=CT.Total.Biomass.g,y=MeanTCTCt,color=Stream,shape=Stream))+
   geom_smooth(mapping=aes(x=CT.Total.Biomass.g,y=MeanTCTCt),method="lm",color='black')+
@@ -836,46 +813,9 @@ model_coho_fin=lm(MeanTCTCo~CO.Biomass.g.m3+Transect.Flow.cms+CO.Biomass.g.m3*Tr
                   data=field.collapse)
 
 
-# Make cohofull.pdf
-
-
-term_name=c("Intercept","Water Temperature (C)","pH","Coho Biomass (g/m3)","Flow (cm/s)","Shore","Depth","Coho Biomass:Flow")
-kcoef=c(11.5,-0.068,-1.34,22.51,-0.026,-0.0043,0.57,-151.5)
-kse=c(7.06,0.14,0.73,2.14,0.21,0.19,1.70,18.34)
-tval=c(1.63,-0.49,-1.84,10.54,-0.13,-0.022,0.34,-8.26)
-pval=c('0.11','0.63','0.07','7.44e-14','0.89','0.98','0.74','1.21e-10')
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
 
 
 redmodel=lm(MeanTCTCo~pH+CO.Biomass.g.m3+Transect.Flow.cms+CO.Biomass.g.m3*Transect.Flow.cms,data=field.collapse)
-#cohored.pdf
-
-term_name=c("Intercept","pH","Coho Biomass (g/m3)","Flow (cm/s)","Coho Biomass:Flow")
-kcoef=c(9.00,-1.12,22.30,0.065,-150.50)
-kse=c(4.50,0.57,2.04,0.13,16.97)
-tval=c(2.00,-1.95,10.92,0.48,-8.87)
-pval=c('0.051','0.057','9.97e-15','0.63','9.25e-12')
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-
-
 
 
 
@@ -995,11 +935,7 @@ f3=fviz_pca_ind(res.pca_new,
 
 
 
-
-
-
-
-
+# Create custom table
 code1= c('CO.Total.Biomass.g','CO.Biomass.g.m2','CO.Biomass.g.m3','eDNA.Distance.from.Shore.m','eDNA.Total.Water.Depth.m','pH','Transect.Flow.cms',
         'Water.Temperature.C','CO.Biomass.g.m3:Transect.Flow.cms')
 
@@ -1024,51 +960,6 @@ names(df)='Terms'
 ktz2=kable(df,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
 
-
-term_name=c("Components","df","logLik","AicC","delta","weight")
-c1=c(1457,157,14567,12457,13457,1567,1257,1357)
-cdf=c(6,5,7,7,7,6,6,6)
-c2=c(-85.2,-87.3,-85.0,-85.1,-85.2,-87.2,-87.2,-87.2)
-c3=c(184,186,187,187,187,188,188,188)
-del=c(0.00,1.49,2.21,2.42,2.48,3.83,3.85,3.98)
-c4=c(0.35,0.17,0.12,0.11,0.10,0.05,0.05,0.05)
-
-
-
-dff2=data.frame(c1,cdf,c2,c3,del,c4)
-names(dff2)=term_name
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-options(digits=2)
-
-terms=c('Intercept','Biomass.g.m3','pH','Flow','Biomass.g.m3:Flow','Temperature','Distance.from.Shore','Total.Water.Depth.m')
-est1=c(6.43,22.88,-0.78,0.074,-154.63,-0.0057,0.010,0.077)
-est2=c(5.94,2.16,0.73,0.15,17.81,0.050,0.062,0.64)
-est3=c(6.02,2.21,0.74,0.15,18.23,0.05,0.064,0.65)
-est4=c(1.07,10.36,1.06,0.49,8.48,0.11,0.16,0.12)
-est5=c('0.28','<2e-16','0.29','0.63','<2e-16','0.91','0.88','0.90')
-
-dr=data.frame(terms,est1,est2,est3,est4,est5)
-names(dr)=c('Full Average Terms','Estimate','Std Error','Adjusted SE','z value','Pr(>|z|)')
-
-ktz2=kable(dr,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-terms=c('Intercept','Biomass.g.m3','pH','Flow','Biomass.g.m3:Flow','Temperature','Distance.from.Shore','Total.Water.Depth.m')
-est1=c(6.43,22.88,-1.15,0.074,-154.63,-0.033,0.063,0.52)
-est2=c(5.94,2.16,0.60,0.15,17.81,0.12,0.15,1.57)
-est3=c(6.02,2.21,0.61,0.15,18.22,0.12,0.15,1.61)
-est4=c(1.07,10.36,1.89,0.49,8.48,0.29,0.42,0.32)
-est5=c('0.29','<2e-16','0.059','0.63','<2e-16','0.78','0.67','0.75')
-
-dr=data.frame(terms,est1,est2,est3,est4,est5)
-names(dr)=c('Conditional Average Terms','Estimate','Std Error','Adjusted SE','z value','Pr(>|z|)')
-ktz2=kable(dr,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
 
 
 temp_fieldall2=fieldData %>% # This allows us to view the mean temperature at each stream for a given year.
@@ -1096,15 +987,7 @@ fieldData.check=fieldData%>%
   filter(!(Stream.Code=='DDD' & Reach=='Diversion' & Site.number==3 & Sample=='C'))
 
 
-
-
-
 field.collapse$MeanTCTEf=tapply(fieldData$Transformed.ef,factor(fieldData$SSRS),mean,na.rm=T)
-
-
-
-
-
 
 
 field.removeef=field.collapse%>%
