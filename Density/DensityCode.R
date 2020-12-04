@@ -318,7 +318,6 @@ for(i in 1:nrow(eco.dat)){
   }
 }
 
-
 #Init a new column for Fish.
 
 eco.dat$numFish=0
@@ -521,145 +520,7 @@ lfull.tfacm<-lm(TCTmean~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include
 
 az=anova(l.one.linem,lmparallel.tfacm,lfull.tfacm)
 
-# Create custom kable
-term_name=c("Intercept","Log2(Biomass")
-kcoef=c(round(coef(l.one.linem)[[1]],2),round(coef(l.one.linem)[[2]],2))
-kse=c(0.40,0.07)
-tval=c(29.5,14.3)
-pval=c('<2e-16','<2e-16')
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-
-# Create custom kable
-
-term_name=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24")
-kcoef=c(round(coef(lmparallel.tfacm)[[1]],2),round(coef(lmparallel.tfacm)[[2]],2),round(coef(lmparallel.tfacm)[[3]],2),round(coef(lmparallel.tfacm)[[4]],2),
-        round(coef(lmparallel.tfacm)[[5]],2))
-kse=c(0.39,0.06,0.32,0.32,0.32)
-tval=c(31.1,17.5,1.8,-5.3,2.0)
-pval=c('<2e-16','<2e-16',"0.07","4.6e-07","0.04")
-
-# Create custom kable
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-term_name=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24","Log2(Biomass):Tank20","Log2(Biomass):Tank21","Log2(Biomass):Tank24")
-kcoef=c(round(coef(lfull.tfacm)[[1]],2),round(coef(lfull.tfacm)[[2]],2),round(coef(lfull.tfacm)[[3]],2),round(coef(lfull.tfacm)[[4]],2),
-        round(coef(lfull.tfacm)[[5]],2),round(coef(lfull.tfacm)[[6]],2),round(coef(lfull.tfacm)[[7]],2),round(coef(lfull.tfacm)[[8]],2))
-kse=c(0.65,0.11,0.93,0.92,0.92,0.16,0.16,0.16)
-tval=c(17.7,10.1,1.7,-2.2,2.7,-1.1,0.41,-2.1)
-pval=c('<2e-16','<2e-16',"0.10","0.03","0.008","0.28","0.69","0.04")
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-
-
-
-
-
-# Create custom kable
-
-coef_names=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24","Log2(Biomass):Tank20","Log2(Biomass):Tank21","Log2(Biomass):Tank24")
-coef_terms=c(round(coef(lfull.tfac)[[1]],2),round(coef(lfull.tfac)[[2]],2),round(coef(lfull.tfac)[[3]],1),round(coef(lfull.tfac)[[4]],2),round(coef(lfull.tfac)[[5]],2),
-             round(coef(lfull.tfac)[[6]],2),round(coef(lfull.tfac)[[7]],2),round(coef(lfull.tfac)[[8]],2))
-d_terms=c(0.58,0.01,0.84,0.83,0.83,0.15,0.14,0.14)
-tterms=c(20.12,10.60,1.40,-1.59,2.49,-0.80,-0.27,-1.90)
-pterm=c("<2e-16","<2e-16","0.17","0.11","0.014","0.42","0.79","0.06")
-
-
-dff=data.frame(coef_names,coef_terms,d_terms,tterms,pterm)
-names(dff)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-aa=anova(l.one.line,lmparallel.tfac,lfull.tfac)
-
-coef_names=c("Res DF","RSS","DF","SQ","F",'Pr(>F)')
-res=c(137,134,131)
-RSS=c(294,192,186)
-DF=c("","3","3")
-SSQ=c("","102","6")
-FF=c("","23.87","1.41")
-PR=c("","2.2e-12","0.24")
-
-
-RSS=c(366,240,227)
-SSQ=c("","125.1","13.3")
-FF=c("","24.1","2.6")
-PR=c("","1.8e-12","0.058")
-
-
-dff=data.frame(res,RSS,DF,SSQ,FF,PR)
-names(dff)=c("Res DF","RSS","DF","SQ","F",'Pr(>F)')
-
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-
-
-
-
-coef_names=c("Intercept","Log2(Biomass)","Tank 20","Tank 21","Tank 24")
-coef_terms=c(round(coef(lmparallel.tfac)[[1]],1),round(coef(lmparallel.tfac)[[2]],2),round(coef(lmparallel.tfac)[[3]],1),round(coef(lmparallel.tfac)[[4]],2),round(coef(lmparallel.tfac)[[5]],2))
-d_terms=c(0.35,0.05,0.29,0.29,0.29)
-tterms=c(35.70,18.65,1.84,-5.35,2.03)
-pterm=c("<2e-16","<2e-16","0.068","3.7e-7","0.044")
-
-
-
-dff=data.frame(coef_names,coef_terms,d_terms,tterms,pterm)
-names(dff)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-
-
-
-options(digits=3)
-# Create custom kable
-
-
-coef_names=c("Intercept","Log2(Biomass)")
-lonelineinter=coef(l.one.line)[1]
-lonelineslope=coef(l.one.line)[2]
-coef_terms=c(lonelineinter,lonelineslope)
-
-kcoef=c(round(coef(l.one.line)[[1]],1),round(coef(l.one.line)[[2]],2))
-kse=c(0.36,0.06)
-tval=c(33.90,15.22)
-pval=c('<2e-16','<2e-16')
-
-
-dff=data.frame(coef_names,kcoef,kse,tval,pval)
-names(dff)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
+  
 library(jtools)
 #Extract linear coefficients.
 lmcoef=coef(lfull.tfac)
@@ -667,8 +528,6 @@ t19coef=c(lmcoef[1],lmcoef[2])
 t20coef=c(lmcoef[1]+lmcoef[3],lmcoef[2]+lmcoef[6])
 t21coef=c(lmcoef[1]+lmcoef[4],lmcoef[2]+lmcoef[7])
 t24coef=c(lmcoef[1]+lmcoef[5],lmcoef[2]+lmcoef[8])
-
-
 
 
 l2biom<-as.matrix(eco.sum.out.dat$l2biom,nrow=nrow(eco.sum.out.dat),ncol=1)
@@ -685,25 +544,6 @@ anova.lmRob(lr,lrparallel.tfac,lrfull.tfac)  #anova on robust models. #Model wit
 
 
 #Extract coefficients from these three robust models.
-
-# Create custom kable
-
-
-coef_names=c("Terms","DF","RobustF","Pr(F)")
-TERM=c("1","2","3")
-DF=c("","3","3")
-FF=c("","25.87","3.46")
-PR=c("","2.2e-12","0.24")
-
-dff=data.frame(TERM,DF,FF,PR)
-names(dff)=c("Terms","Df","RobustF","Pr(F)")
-
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-
-
 # Robust Coefficients
 
 lrcoef=coef(lrfull.tfac)
@@ -713,47 +553,6 @@ t20coef.robust=c(lrcoef[1]+lrcoef[3],lrcoef[2]+lrcoef[6])
 t21coef.robust=c(lrcoef[1]+lrcoef[4],lrcoef[2]+lrcoef[7])
 t24coef.robust=c(lrcoef[1]+lrcoef[5],lrcoef[2]+lrcoef[8])
 
-# Create custom kable
-
-term_name=c("Intercept","Log2(Biomass)")
-kcoef=c(round(coef(lr)[[1]],1),round(coef(lr)[[2]],2))
-kse=c(0.38,0.06)
-tval=c(32.90,14.30)
-pval=c('<2e-16','<2e-16')
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-term_name=c("Intercept","Log2(Biomass)","Tank20","Tank21","Tank24")
-kcoef=c(round(coef(lrparallel.tfac)[[1]],2),round(coef(lrparallel.tfac)[[2]],2),round(coef(lrparallel.tfac)[[3]],2),round(coef(lrparallel.tfac)[[4]],2),round(coef(lrparallel.tfac)[[5]],2))
-kse=c(0.331,0.049,0.274,0.271,0.269)
-tval=c(35.71,21.03,2.45,-6.12,2.22)
-pval=c('<2e-16','<2e-16',"0.016","9.6e-09","0.028")
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
-
-
-
-
-# Create custom kable
-
-
-term_name=c("Intercept","Log2(Biomass)","Tank20","Tank21","Tank24","Log2(Biomass):Tank20",'Log2(Biomass):Tank21','Log2(Biomass):Tank24')
-kcoef=c(round(coef(lrfull.tfac)[[1]],2),round(coef(lrfull.tfac)[[2]],2),round(coef(lrfull.tfac)[[3]],2),round(coef(lrfull.tfac)[[4]],2),
-        round(coef(lrfull.tfac)[[5]],2),round(coef(lrfull.tfac)[[6]],2),round(coef(lrfull.tfac)[[7]],2),round(coef(lrfull.tfac)[[8]],2))
-kse=c(0.85,0.14,1.19,1.21,1.14,0.21,0.20,0.19)
-tval=c(13.72,7.43,0.62,-2.07,2.05,-0.06,0.73,-1.53)
-pval=c('<2e-16','1.2e-11','0.54','0.04','0.04','0.94','0.47','0.13')
 
 
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
@@ -776,22 +575,6 @@ lineartank21<-lm(TCTmed~l2biom, data=eco.sum.out.dat, subset=(TankF==21))
 lineartank24<-lm(TCTmed~l2biom, data=eco.sum.out.dat, subset=(TankF==24))
 
 
-# Create custom kable
-
-kt.intercept=c(coef(lineartank19)[1],coef(lineartank20)[1],coef(lineartank21)[1],coef(lineartank24)[1])
-kt.intercept_std=c(0.53,0.66,0.64,0.54)
-  
-kt.slope=c(coef(lineartank19)[2],coef(lineartank20)[2],coef(lineartank21)[2],coef(lineartank24)[2])
-kt.slope_std=c(0.09,0.12,0.11,0.09)
-
-kt.r2=round(c(summary(lineartank19)$r.squared,summary(lineartank20)$r.squared,summary(lineartank21)$r.squared,summary(lineartank24)$r.squared),3)
-itank=c(19,20,21,24)
-
-dkk=data.frame(itank,round(kt.intercept,3),kt.intercept_std,round(kt.slope,3),kt.slope_std,kt.r2)
-names(dkk)=c("Tank","Intercept","Std Error","Slope","Std Error","$R^{2}$")
-
-kzz=kable(dkk,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
 
 
 col.vec=c("black","red","green","magenta")
@@ -1020,22 +803,6 @@ ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling(latex_options = 'striped')
 
 
-
-
-options(digits=3)
-# Create custom kable
-
-nn=c('l.one.line','lmparallel.tfac','lfull.tfac','l.tankregression.med','l.one.line.mean','lmparallel.tfac.mean','lfull.tfac.mean','l.tankregression')
-n2=c('Median TCT','Median TCT','Median TCT','Median TCT','Mean TCT','Mean TCT','Mean TCT','Mean TCT')
-r2=c(0.626,0.756,0.763,0.748,0.692,0.735,0.750,0.748)
-adjr2=c(0.624,0.748,0.751,0.738,0.688,0.728,0.737,0.739)
-dz=data.frame(nn,n2,r2,adjr2)
-names(dz)=c("Model","Response","$R^{2}$","adj$R^{2}$")
-
-ktz=kable(dz,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-
 coef_names=c("Intercept","Log2(BiomPerTank)")
 
 
@@ -1049,14 +816,6 @@ names(dff)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
 
 ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling(latex_options = 'striped')
-
-
-
-
-
-
-
-
 
 
 
@@ -1123,25 +882,6 @@ lineartank20.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==20))
 lineartank21.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==21))
 lineartank24.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==24))
 
-# Create custom kable
-
-kt2.intercept=c(coef(lineartank19.mean)[1],coef(lineartank20.mean)[1],coef(lineartank21.mean)[1],coef(lineartank24.mean)[1])
-kt2.slope=c(coef(lineartank19.mean)[2],coef(lineartank20.mean)[2],coef(lineartank21.mean)[2],coef(lineartank24.mean)[2])
-kt2.r2=round(c(summary(lineartank19.mean)$r.squared,summary(lineartank20.mean)$r.squared,summary(lineartank21.mean)$r.squared,summary(lineartank24.mean)$r.squared),3)
-itank=c(19,20,21,24)
-
-intse=c(0.59,0.68,0.79,0.53)
-slopese=c(0.10,0.12,0.14,0.09)
-
-
-dkk2=data.frame(itank,round(kt2.intercept,3),intse,round(kt2.slope,3),slopese,kt2.r2)
-names(dkk2)=c("Tank","Intercept","Std Error","Slope","Std Error","$R^{2}$")
-
-kzz2=kable(dkk2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-kzz2=kable(dkk2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
 
 # Extract the coefficeints.
 t19coef.mean=coef(lineartank19.mean)
