@@ -1,4 +1,4 @@
-# Dilution Analysis
+# This document contains the R script used for the Dilution Analysis (Chapter 4)
 
 # Note that the Bent Cable fitting searches a large grid of possible values, so don't be alarmed
 # if it takes 30+ seconds to fit.
@@ -8,17 +8,17 @@
 
 
 #Load libraries.
-library(knitr) 
+library(knitr) # For rendering
 library(dplyr)  #For piping and general use
 library(kableExtra) #For making kable plots
 library(ggplot2) #ggplot for plotting
-library(ggthemes)
+library(ggthemes) # themes for ggplots
 library(investr) #Calibration
 library(nlstools) #For nonlinear regression
 library(SiZer) #For bent.cable function
 library(robust) #For robust analysis
 
-
+# Read in the dilution data
 flow.dat<-read.csv("Flow-4July2019.csv") 
 #The original name of the excel/csv file is "Flow_experiment_complete-070419MJA.csv"
 
@@ -93,8 +93,6 @@ tf=c("",0,10,20,40,80,160,1000,'pond','sink')
 tf2=c("","",round(log2(10),2),round(log2(20),2),round(log2(40),2),round(log2(80),2),round(log2(160),2),round(log2(1000),2),"","")
 
 tf3=c(1,"","","","","","","",3,2)
-
-
 tf4=c(19,3,4,2,3,3,3,4,"","")
 tf5=c(20,3,4,3,3,3,3,3,"","")
 tf6=c(21,3,3,3,3,3,3,4,"","")
@@ -108,7 +106,7 @@ names(reps3)=c("",1,19,20,21,24)
 #Apply the function over each sort code and level of flow/tank.
 reps2 <- tapply(flow.cut$Sort.Code, list(flow.cut$Flow, flow.cut$Tank), numrep)
 
-# Kables dont reneder in R, need to use latex if want to re-render.
+# Create first flow kable, need to use latex if want to re-render.
 
 k_sample_rep1=kable(reps2, caption="Number of Sample.replicates by Flow/Tank",format='latex',booktabs=T)%>%
   kable_styling("striped") %>%
@@ -242,9 +240,6 @@ for (j in iFlowN){
 }
 
 
-
-
-
 #Flow values of interest , except zero flow.
 iFlow<-c(10,20,40,80,160,1000)
 
@@ -271,14 +266,9 @@ log.dataframe<-data.frame(iFlow,ynum,num.reps)
 
 names(log.dataframe)<-c("Flow","log2(Flow)","Total number of Sample.replicates")
 
+# Second flow kable
 kf=kable(log.dataframe,caption="Values of log2(Flow) for associated Flow value in kL",format="latex",booktabs=T) 
 
-
-
-
-
-
-#On data with only the 10kL we want kept.
 
 
 flow.cut.order<-flow.cut[order(flow.cut$Sort.Code), ] #Form a new data frame which is our original flow.cut , but ordered with respect to increasing Sort.Code.
@@ -293,6 +283,7 @@ flow.new<- flow.cut.order %>%
 flow.new.zero<-flow.cut.order %>%
   filter(Flow==0)
 
+# Start forming summary statistics over sort codes
 
 jmed_flow.test<-tapply(flow.new$Transformed.Ct, factor(flow.new$Sort.Code), median) #Gives the median for each sort code.
 
@@ -346,15 +337,7 @@ l.one.line=lm(TCTmed~l2Flow,data=flow.new.sum.dat)#Only included the 10kl we wan
 
 options(digits=3)
 
-nn=c('flow.l.one.line','flow.l.tank','flow.l.four.line','flow.l.one.line.mean','flow.l.tank.mean','flow.l.four.line.mean')
-n2=c('Median TCT','Median TCT','Median TCT','Mean TCT','Mean TCT','Mean TCT')
-r2=c(0.680,0.689,0.692,0.692,0.699,0.702)
-adjr2=c(0.624,0.671,0.660,0.688,0.682,0.672)
-dz=data.frame(nn,n2,r2,adjr2)
-names(dz)=c("Model","Response","$R^{2}$","adj$R^{2}$")
 
-ktz=kable(dz,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
 
 
 term_name=c("Intercept","Log2(Flow)")
@@ -436,12 +419,6 @@ flow.new.sum.dat$TankF<-as.factor(flow.new.sum.dat$Tank)
 l.tank<-lm(TCTmed~l2Flow+TankF,data=flow.new.sum.dat) 
 l.four.line<-lm(TCTmed~l2Flow+TankF+l2Flow*TankF,data=flow.new.sum.dat)
 
-term_name=c("Intercept","Log2(Flow)","Tank20","Tank21","Tank24")
-kcoef=c(round(coef(l.tank)[[1]],2),round(coef(l.tank)[[2]],2),round(coef(l.tank)[[3]],2),
-        round(coef(l.tank)[[4]],2),round(coef(l.tank)[[5]],2))
-kse=c(1.74,0.22,1.45,1.43,1.45)
-tval=c(13.39,-12.46,1.18,1.25,0.66)
-pval=c('<2e-16','<2e-16','0.24','0.22','0.51')
 
 
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
@@ -451,12 +428,6 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
 
 
-term_name=c("Intercept","Log2(Flow)","Tank20","Tank21","Tank24","Log2(Flow):Tank20","Log2(Flow):Tank21","Log2(Flow):Tank24")
-kcoef=c(round(coef(l.four.line)[[1]],2),round(coef(l.four.line)[[2]],2),round(coef(l.four.line)[[3]],2),
-        round(coef(l.four.line)[[4]],2),round(coef(l.four.line)[[5]],2),round(coef(l.four.line)[[6]],2),round(coef(l.four.line)[[7]],2),round(coef(l.four.line)[[8]],2))
-kse=c(2.99,0.45,4.25,4.16,4.29,0.65,0.63,0.64)
-tval=c(7.32,-5.75,1.12,0.66,0.55,-0.81,-0.24,-0.35)
-pval=c('<3.4e-10','<2.3e-7','0.25','0.51','0.58','0.42','0.81','0.73')
 
 
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
@@ -470,34 +441,6 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
 a1=anova(l.one.line,l.tank,l.four.line)
 
 
-coef_names=c("Res DF","RSS","DF","SQ","F",'Pr(>F)')
-res=c(75,72,69)
-RSS=c(1483.2,1442.8,1428.5)
-DF=c("","3","3")
-SSQ=c("","40.4","14.3")
-FF=c("","0.65","0.23")
-PR=c("","0.59","0.87")
-
-dff=data.frame(res,RSS,DF,SSQ,FF,PR)
-names(dff)=c("Res DF","RSS","DF","SQ","F",'Pr(>F)')
-
-
-ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling(latex_options = 'striped')
-
-term_name=c("Intercept","Log2(Flow)","Tank20","Tank21","Tank24")
-kcoef=c(round(coef(l.tank.mean)[[1]],2),round(coef(l.tank.mean)[[2]],2),round(coef(l.tank.mean)[[3]],2),
-        round(coef(l.tank.mean)[[4]],2),round(coef(l.tank.mean)[[5]],2))
-kse=c(1.62,0.21,1.36,1.34,1.36)
-tval=c(14.01,-12.79,1.13,1.02,0.71)
-pval=c('<2e-16','<2e-16','0.26','0.31','0.48')
-
-
-dff2=data.frame(term_name,kcoef,kse,tval,pval)
-names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
-
-ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
-  kable_styling("striped")
 
 
 
@@ -522,9 +465,6 @@ names(dz)=c("Model","Response","RSS","Log-Likelihood")
 
 kt=kable(dz,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
-
-
-
 
 
 # Broken Stick
