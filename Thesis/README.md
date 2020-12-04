@@ -4,4 +4,6 @@ This folder alone recreates the thesis. You create the file using the mainthesis
 
 If when running mainthesisUVIC.text creates the thesis with a missing table of contents, try rendering again. If it still does not render, you need to change the line in mainthesisUVIC.text from \bibliography{UvicBib} to \bibliography{UvicBib.bib}. 
 
+If you are using a Mac and TeXShop,you will need to navigate to macros and select BibTex.
+
 To recreate the thesis, you will need to have Latex installed and the correct packages updated.
