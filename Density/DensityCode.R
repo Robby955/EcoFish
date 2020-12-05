@@ -1,12 +1,12 @@
 # This R script runs the density data analysis.
 # It creates several plots and summary statistics as well.
 
-#We don't want many extra digits
-options(digits=2)
-
 #Set your working directory to where you have "DensityDataUpdated.csv" and "densitybiomassoriginal.csv" saved.
 #These are located in the Data folder of the repo.
 
+
+#We don't want many extra digits, you can change this if you want more digits.
+options(digits=2)
 
 # Load packages and libraries.
 library(knitr) #For rendering output to pdf
@@ -27,10 +27,6 @@ library(patchwork) #Common Titles in ggplot
 
 #Read in the initial dataset.
 eco.dat<-read.csv("DensityDataUpdated.csv",fileEncoding="UTF-8-BOM")
-
-
-#Check out the original dimension.
-print(paste("The original dimension of the dataset is", nrow(eco.dat),"by",ncol(eco.dat)))
 
 #Remove unimportant/blank columns that appeared in the raw data. Also assign better names.
 eco.dat <- eco.dat[,-(22:39)]
@@ -163,26 +159,17 @@ numrep <- function(x){ length(unique(x))}
 reps<- tapply(eco.dat$Sort.Code, list(eco.dat$Fish, eco.dat$Tank), numrep)
 
 #Create the first kable plot.
-
-k1=kable(eco.biomass,caption="Summary of Biomass (gram)",format="latex",booktabs=T,label="Table 1")%>%
-  kable_styling(latex_options = 'striped')
-
+  
 k1=kable(eco.biomass,format="latex",booktabs=T,label="Table 1")%>%
   kable_styling(latex_options = 'striped')
 
-reps<-as.data.frame(reps)
 
 #Create the second table, sample replicate by number of fish and tank.
-
-k2=kable(reps,caption="Number of Sample.replicates by number of fish and tank number.",booktabs=T,format="latex")%>%
-  kable_styling(latex_options = "striped")%>%
-  add_header_above(c("Fish"=1,"Tank"=8))
-
+reps<-as.data.frame(reps)
+  
 k2=kable(reps,booktabs=T,format="latex")%>%
   kable_styling(latex_options = "striped")%>%
   add_header_above(c("Fish"=1,"Tank"=8))
-
-
 
 # We create several useful vectors that we will use to create our plots.
 iFish <- c(1, 2, 4, 8, 16, 32, 65) # The number of fish
@@ -246,10 +233,6 @@ init.frame <- setNames(init.frame, c("Fish","Tank","Min TCT","Max TCT","Median T
 
 # Create the third kable
   
-  k3=kable(init.frame, caption="Summary of TCTs by Tank and Fish over samples and techincal replicates.",booktabs=T,format='latex')%>%
-  kable_styling(latex_options = 'striped')
-
-
 k3=kable(init.frame,booktabs=T,format='latex')%>%
   kable_styling(latex_options = 'striped')
 
@@ -260,9 +243,6 @@ new.frame<-setNames(new.frame,c("Date (2015)","Fish","Tank","Sort Code","Min TCT
 
 # Create the fourth table
   
-k4=kable(new.frame,caption="Zero Fish Summary-Pilot study.",format='latex',booktabs=T)%>%
-  kable_styling(latex_options = 'striped',full_width = TRUE)
-
 k4=kable(new.frame,format='latex',booktabs=T)%>%
   kable_styling(latex_options = 'striped',full_width = TRUE)
 
@@ -272,9 +252,6 @@ new.frame2<-data.frame(new.frame2)
 new.frame2<-setNames(new.frame2,c("Fish","Tank","Sort Code","Min TCT","Max TCT","Median TCT","Mean TCT"))
 
 # Create the fifth kable
-
-k5=kable(new.frame2,caption="Zero Fish Summary",format='latex',booktabs=T)%>%
-  kable_styling(latex_options = 'striped',full_width = TRUE)
 
 k5=kable(new.frame2,format='latex',booktabs=T)%>%
   kable_styling(latex_options = 'striped',full_width = TRUE)
@@ -502,18 +479,13 @@ eco.sum.out.dat$tankF=tankF
 tankFm<-as.matrix(tankF) 
 
 
-options(digits=2)
-
-  
 # Form simple median models.
 l.one.line<-lm(TCTmed~l2biom,data=eco.sum.out.dat) #Simple linear model based on just biomass.
 lmparallel.tfac<-lm(TCTmed~l2biom+tankF,data=eco.sum.out.dat) #Biomass and Tank as a factor.
 lfull.tfac<-lm(TCTmed~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
 
 
-
 # Form simple mean models.
-
 l.one.linem<-lm(TCTmean~l2biom,data=eco.sum.out.dat) #Simple linear model based on just biomass.
 lmparallel.tfacm<-lm(TCTmean~l2biom+tankF,data=eco.sum.out.dat) #Biomass and Tank as a factor.
 lfull.tfacm<-lm(TCTmean~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
@@ -641,10 +613,6 @@ gg_par_median=gg_par_median+ theme(
 
 #ggsave("parfits.pdf",gg_par_median,width=6,height=6,dpi=400)
 
-
-
-
-
 # Create ggplotnew.png
 
 gg_tank_linear=ggplot(data=gframe)+
@@ -709,13 +677,9 @@ legend.justification = c("right", "bottom"))
 
 #ggsave('parmean.pdf',gg_par_mean,width=6,height=6,dpi=500)
 
-
-
 gg_par_mean=gg_par_mean+labs(title="Mean Transformed CT by Log2 Fish Biomass (gram) \nwith differing intercepts")+ theme(
   legend.position = c(1, 0.05),
   legend.justification = c("right", "bottom"))
-
-
 
 lfull.mean<-lm(TCTmean~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
 gframe.mean=data.frame(l2biom,eco.mean,eco.sum.dat$Tank-18,eco.sum.dat$Tank-18)
@@ -755,10 +719,6 @@ gg_tank_mean=gg_tank_mean+labs(title="Mean Transformed CT by Log2 Fish Biomass (
   legend.position = c(1, 0.05),
   legend.justification = c("right", "bottom"))
 
-
-
-
-
 meanV=init.frame[,6] #Get the mean values from init.frame
 medV=init.frame[,5]
 
@@ -777,7 +737,6 @@ label.pos<-unique.bio
 
 
 names(iframe)<-c("x","Fish")
-
 
 l.tankregression<-lm(meanV~l2biomTank,data=new.tank) # This is the model that ggplot fits. We have 28 observations. 4 for each of the seven number of fish. This models the mean TCT over each tank and specific number of fish.
 
@@ -817,9 +776,6 @@ names(dff)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
 ktz=kable(dff,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling(latex_options = 'striped')
 
-
-
-
 # Create plot of mean TCT collapsed over tank
 
 gn=ggplot(data=new.tank)+
@@ -835,8 +791,6 @@ gn=ggplot(data=new.tank)+
   scale_x_continuous(sec.axis=sec_axis(trans=~ . * 1, name=TeX("Coho biomass ($log_{2}$ g)")),labels=iFish,breaks=label.pos,position='top')
 
 #ggsave('ggplotnew5.png',gn,width=6,height=6,dpi=500)
-
-
 
 gn_mean=ggplot(data=new.tank)+
   geom_point(mapping=aes(x=l2biomTank,y=meanV),shape=0)+
@@ -858,9 +812,6 @@ modular=augment(l.tankregression)
 modular$TankNum=rep(c('19','20','21','24'),7)
 
 gresid=ggplot(modular, aes(x = .fitted, y = .resid,col=factor(TankNum),shape=factor(TankNum))) + geom_point()+theme_bw()+ylab("Residuals")+geom_hline(yintercept=0)+scale_color_manual(name="Tank",values=c("black", "red", "blue","magenta"),labels=c("19","20","21","24"))+scale_shape_manual(name="Tank",values=c(1,2,3,6),labels=c("19","20","21","24"))+xlab("Fitted")+ggtitle("Residuals for l.tankregression")
-
-
-
 
 gn2=ggplot(data=new.tankmed)+
   geom_point(mapping=aes(x=l2biomTank,y=medV),shape=0)+
@@ -939,7 +890,6 @@ gg_mean_full=gg_mean_full+labs(title="Mean Transformed CT by Log2 Fish Biomass (
 
 
 modular=augment(l.tankregression)
-
 modular$TankNum=rep(c('19','20','21','24'),7)
 
 gresid=ggplot(modular, aes(x = .fitted, y = .resid,col=factor(TankNum),shape=factor(TankNum))) + 
@@ -952,7 +902,6 @@ gresid=ggplot(modular, aes(x = .fitted, y = .resid,col=factor(TankNum),shape=fac
 col_bluevec=eco.sum.dat$Tank-18
 col_bluevec[col_bluevec==3]=4
 
-
 #plot(residuals(lmparallel.tfac),col = eco.sum.dat$Tank-18,pch=eco.sum.dat$Tank-18,ylab="Residuals",las=1)
 #abline(h=0)
 
@@ -960,8 +909,7 @@ col_bluevec[col_bluevec==3]=4
 #abline(h=0)
 #title("Residuals for lmparallel.tfac")
 
-
-  col_bluevec=eco.sum.dat$Tank-18
+col_bluevec=eco.sum.dat$Tank-18
 col_bluevec[col_bluevec==3]=4
 
 # Create residul plots for some models, this creates residuals2.pdf
@@ -981,4 +929,3 @@ plot(residuals(lfull.tfac),col = col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab=
 abline(h=0)
 title("Residuals for linear fit lfull.tfac \nwith Tank and Interaction")
 #dev.off()
-
