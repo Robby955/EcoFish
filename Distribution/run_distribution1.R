@@ -1,5 +1,6 @@
 
-# This code provides several anomaly checks and outlier detection for eDNA primers. Of particular interest are the eONKI4 (for Coho) and eFISH1 primers.
+# This code provides several anomaly checks and outlier detection for tests done on eDNA primers. Of particular interest are the eONKI4 (for Coho) and eFISH1 primers.
+# The goal was to validate their effenciancy and ensure they were not producing false predictions.
 
 # Set parameters for plots.
 knitr::opts_chunk$set(fig.width=12, fig.height=10) 
@@ -666,6 +667,7 @@ for(t in full_targets){
     qqline(sub.quant$Cq) #Add the Q-Q line
   }
 }
+  }
 
 
 
