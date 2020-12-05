@@ -914,18 +914,23 @@ col_bluevec[col_bluevec==3]=4
 
 # Create residul plots for some models, this creates residuals2.pdf
 #pdf(file='residuals2.pdf')
-par(mfrow=c(2,2))
+#par(mfrow=c(2,2))
 
-plot(residuals(l.one.line),col =col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
-abline(h=0)
-title("Residuals for linear fit l.one.line")
+#plot(residuals(l.one.line),col =col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
+#abline(h=0)
+#title("Residuals for linear fit l.one.line")
 
-plot(residuals(lmparallel.tfac),col =col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
-abline(h=0)
-title("Residuals for lmparallel.tfac")
+#plot(residuals(lmparallel.tfac),col =col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
+#abline(h=0)
+#title("Residuals for lmparallel.tfac")
 
 
-plot(residuals(lfull.tfac),col = col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
-abline(h=0)
-title("Residuals for linear fit lfull.tfac \nwith Tank and Interaction")
+#plot(residuals(lfull.tfac),col = col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
+#abline(h=0)
+#title("Residuals for linear fit lfull.tfac \nwith Tank and Interaction")
 #dev.off()
+  
+#Ensure everything ran as planned.
+  
+gn_mean
+gz_fish
