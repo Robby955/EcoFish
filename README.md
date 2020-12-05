@@ -1,15 +1,17 @@
 # Eco Fish
 
-To create the Thesis, download the Zip file of this repo (top right of the main page of the repo, a green button with the words "code"). Then Select 'download zip'. Next, run 'mainthesisUVIC.tex' (located in the Thesis folder) to create the thesis. Be sure to Unzip the contents of the zip file into a local folder, such as a blank folder on your desktop. The folder called "Data" contains all the required datasets needed to run the R code. Hence, you should set your working directory to this folder.
+This Repository contains code used for the analysis of data and visualizations of Environmental DNA measurements taken from EcoFish Ltd datasets. Much of this analysis was included and done in persuit of my thesis.
+
+
+To recreate the Thesis, download the Zip file of this repo (top right of the main page of the repo, a green button with the words "code"). Then Select 'download zip'. Next, run 'mainthesisUVIC.tex' (located in the Thesis folder) to create the thesis. Be sure to Unzip the contents of the zip file into a local folder, such as a blank folder on your desktop. The folder called "Data" contains all the required datasets needed to run the R code. Hence, you should set your working directory to this folder.
 
 
 ![What is this](Images/fish2.png)
 
 Image Citation: https://gen-fish.ca/uses-and-limitations-of-environmental-dna-edna-in-fisheries-management/
 
-This Repository contains code used for analysis of Data and visualizations of Environmental DNA measurements taken from EcoFish Ltd datasets.
 
-Four main set of codes will be available.
+There are four distinct R scripts, corresponding to differing experiments.
 
 The first set of code is an analysis of a density related experiment.
 The second set of code is the analysis of a dilution related experiment.
