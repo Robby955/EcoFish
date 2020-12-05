@@ -1,2 +1,1 @@
-This folder contains the code to create the field data and the images used. To run this R code, you need to have your working directory set to the location where the data 
-"EcoFieldUp.csv" is stored.
+This folder contains the R code needed to recreate and run the field data analysis (Chapter 5). It also contains additional images used. To run this R code, you need to have your working directory set to the location where the data called "EcoFieldUp.csv" is stored.
