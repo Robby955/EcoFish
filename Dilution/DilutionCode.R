@@ -1,11 +1,9 @@
-# This document contains the R script used for the Dilution Analysis (Chapter 4)
-
-# Note that the Bent Cable fitting searches a large grid of possible values, so don't be alarmed
-# if it takes 30+ seconds to fit.
-# Saving plots is commented out.
+# This document contains the R script used for the Dilution Analysis (Chapter 4).
 
 # Set the working directory to location where "Flow_experiment_complete-070419MJA.csv" is saved.
 
+# Note: The Bent Cable fitting searches a large grid of possible values, so don't be alarmed if it takes 30+ seconds to fit.
+# Saving plots is commented out.
 
 #Load libraries.
 library(knitr) # For rendering
@@ -20,11 +18,11 @@ library(robust) #For robust analysis
 
 # Read in the dilution data
 flow.dat<-read.csv("Flow-4July2019.csv") 
-#The original name of the excel/csv file is "Flow_experiment_complete-070419MJA.csv"
+
+#The original name of the excel/csv file was "Flow_experiment_complete-070419MJA.csv"
 
 #Remove unimportant/blank columns
 flow.dat <- flow.dat[1:864,-c(2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22:ncol(flow.dat))]
-
 
 #Rename the columns for easy acess.
 names(flow.dat)<-c("Sort.Code","Site.ID","Sample.replicate","Lab.Code","Transformed.Ct")  
@@ -32,12 +30,11 @@ names(flow.dat)<-c("Sort.Code","Site.ID","Sample.replicate","Lab.Code","Transfor
 #We need to remove samples which did not pass the integrity score. These correspond to sort.code=84 and sort.code=31
 sort.index<-c(31,84)
 
-# Define negation function to use
+#Define negation function to use
 '%ni%' <- Negate('%in%')
 
-# Use negation to remove bad sort codes
+#Use negation to remove bad sort codes
 flow.dat<-flow.dat[flow.dat$Sort.Code %ni% sort.index, ] #Remove those from our data set.
-
 
 #Use grep, these indictors will tell us what rows contain that kL of flow and tank number.
 # ^ in grep means 'starts with' and $ in grep means ends with.
@@ -302,36 +299,26 @@ jind <- c(TRUE, flow.new$Sort.Code[-length(flow.new$Sort.Code)]!=flow.new$Sort.C
 
 jind.zero<-c(TRUE, flow.new.zero$Sort.Code[-length(flow.new.zero$Sort.Code)]!=flow.new.zero$Sort.Code[-1])
 
-
-
-
 flow.new.sum.dat<-data.frame(flow.new[jind, ]) #Only the 10kL of intrerst is included.
 
 flow.new.sum.zero<-data.frame(flow.new.zero[jind.zero, ]) #This contains the 12 sort codes for 0 fish.
 
 
 flow.new.sum.dat$TCTmed<-jmed_flow.test 
-
-
 flow.new.sum.dat$TCTmean<-jmean_flow  
 flow.new.sum.zero$TCTmean<-jmean_flow.zero  
 
 
 flow.new.sum.dat$FlowN<-as.numeric(flow.new.sum.dat$Flow)
-
 flow.new.sum.dat$l2Flow<-log2(flow.new.sum.dat$FlowN) #make a column called l2Flow for log2(flow)
-
 flow.new.sum.dat$TankF<-as.factor(flow.new.sum.dat$Tank)
-
 
 
 medTCT.red<-as.matrix(flow.new.sum.dat$TCTmed,nrow=1,ncol=sum(num.reps)) #Refers to cut data (only the 10kl we want included)
 logFlow.red<-as.matrix(log2(flow.new.sum.dat$FlowN),nrow=sum(num.reps),ncol=1) #Refers to full data (only the 10KL we want included)
 
 
-
 msg.UCV<-"" #This definition allows the code to run without an error
-
 
 l.one.line=lm(TCTmed~l2Flow,data=flow.new.sum.dat)#Only included the 10kl we want. A simple linear fit.
 
@@ -353,8 +340,6 @@ names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
 ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
 
-
-
 term_name=c("Intercept","Log2(Flow)")
 kcoef=c(round(coef(l.one.line.mean)[[1]],2),round(coef(l.one.line.mean)[[2]],2))
 kse=c(1.36,0.21)
@@ -369,11 +354,8 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
 
 
-
-
 flow.l.one.line=l.one.line
 l.one.line.mean=lm(formula = TCTmean ~ l2Flow, data = flow.new.sum.dat) #Same thing as l.one.lone but for mean.
-
 
 
 col.vec=as.factor(flow.new.sum.dat$Tank-18)
@@ -440,10 +422,6 @@ ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
 
 a1=anova(l.one.line,l.tank,l.four.line)
 
-
-
-
-
 # Linear Regressions on Mean TCT
 l.one.line.mean=lm(formula = TCTmean ~ l2Flow, data = flow.new.sum.dat)
 l.tank.mean=lm(formula = TCTmean ~ l2Flow + TankF, data = flow.new.sum.dat)
@@ -451,7 +429,6 @@ l.four.line.mean=lm(formula = TCTmean ~ l2Flow + TankF + l2Flow * TankF, data = 
 
 
 a2=anova(l.one.line.mean,l.tank.mean,l.four.line.mean)
-
 
 options(digits=3)
 
@@ -474,8 +451,6 @@ bstick.lm.mean <- nls(TCTmean ~ cbind("intercept"=1, "l2Flow"=l2Flow,
 
 pp=predict(bstick.lm.mean,flow.new.sum.dat$l2Flow)
 rss1=(flow.new.sum.dat$TCTmean-pp)
-
-
 
 # Hyperbolic Tangent Models
 x1 <- seq(min(flow.new.sum.dat$TCTmean), max(flow.new.sum.dat$TCTmean), 0.1)
@@ -564,9 +539,7 @@ gz4
 
 x <- seq(min(flow.new.sum.dat$TCTmed), max(flow.new.sum.dat$TCTmed), 0.1)
 
-
 TCTmean.htan<-nls(TCTmean~cbind("intercept"=1,"B1"=l2Flow-br,"B2"=(l2Flow-br)*tanh((l2Flow-br)/gamma)), start=list(br=6.5,gamma=0.5),algorithm='plinear',nls.control(maxiter=10000),data=flow.new.sum.dat)
-
 
 p2<-coef(TCTmean.htan)
 
@@ -574,8 +547,6 @@ p2<-coef(TCTmean.htan)
 #gz_final_flow
 #gg_pond_sink
 #gg_zerofish
-
-
 
 p.tanh<-coef(TCTmean.htan)
 p <- coef(bstick.lm.mean)
