@@ -1,29 +1,23 @@
 
-# This code provides several anomaly checks and outlier detection for eDNA primers. Of particular intrest are eONKI4 and eFISH1.
+# This code provides several anomaly checks and outlier detection for eDNA primers. Of particular interest are the eONKI4 (for Coho) and eFISH1 primers.
 
-# Set parameters and load in libraries.
-
+# Set parameters for plots.
 knitr::opts_chunk$set(fig.width=12, fig.height=10) 
 
-suppressMessages(library(tidyverse))  #For general usage and piping
+# Load required libraries.
 
-suppressMessages(library(fitdistrplus)) #This package allows us to fit models when there is no clear closed form
-
-suppressMessages(library(EnvStats)) #This package provides qqPlot a slight alternative to qqplot
-
-suppressMessages(library(actuar)) #We use this package to model Log-Logistic distributions
-
+library(tidyverse)  #For general usage and piping
+library(fitdistrplus) #This package allows us to fit models when there is no clear closed form
+library(EnvStats) #This package provides qqPlot a slight alternative to qqplot
+library(actuar) #We use this package to model Log-Logistic distributions
 library(goftest) # This package contains the ad.test and cvm.test functions
-
-suppressMessages(library(kableExtra)) #For building kable plots
-
-suppressMessages(library(OutlierDetection)) #For outlier detection
+library(kableExtra) #For building kable plots
+library(OutlierDetection) #For outlier detection
 
 
-# Read in Data and Wrangle.
-# Set to locations of the csv file.
+# Read in the original dataset.
 
-Dat=read.csv('Helbing-LOD_LOQ_DataZero48-040319MJAML.csv',header=TRUE,stringsAsFactors = TRUE) #Read in the data set
+Dat=read.csv('Helbing-LOD_LOQ_DataZero48-040319MJAML.csv',header=TRUE,stringsAsFactors = TRUE) 
 
 Dat$SQf=as.factor(Dat$SQ) #Add a column that is the factor version of SQ
 
@@ -34,8 +28,7 @@ invisible(droplevels(Dat$SQf)) #Remove factor levels not used
 
 Dat$SQf=factor(Dat$SQf) #Add a column(the SQ as a factor)
 
-
-
+# Form a seperate dataframe for the other primers.
 
 Dat2=Dat %>%
   filter(Target!='eFISH1') %>%
@@ -54,7 +47,7 @@ Dat2$SQf=factor(Dat2$SQf) #Add a column(the SQ as a factor)
 Dat2$Target=factor(Dat2$Target)
 
 
-# eFISH1
+# eFISH1 tests.
 
 Dat.eFISH= Dat %>%
   filter(Target=='eFISH1') #Restrict attention to eFISH1
@@ -103,8 +96,6 @@ for(i in levels(Dat$SQf)){ # Loop over all SQ of intrest
 }
 
 
-
-
 coef_var=rep(0,length(levels(Dat$SQf))) #Using MLE to calculate
 
 coef_var_lognormal=rep(0,length(levels(Dat$SQf))) #Alternate form this is CVa
@@ -138,8 +129,6 @@ for(i in levels(Dat$SQf)){
   
   mle.sigma=sqrt(mle.sigmasq)
   
-  
-  
   mle.mean=exp(mle.mu+(mle.sigmasq/2)) #Estimate mean using MLE parameters
   
   
@@ -172,11 +161,6 @@ for(i in levels(Dat$SQf)){
   
   entry=entry+1
   
-  
-  # if(ad$p.value<0.05 | cvm$p.value<0.05){ #If the p-value is below 0.05 we should reject the null hypothesis.
-  #  print(paste("Stop: Failure at SQ:",i))
-  #  }
-  
   cat("\n\n")
   
 }
@@ -202,9 +186,6 @@ for(i in levels(Dat$SQf)){
   sub.quant=sub.quant[!(is.na(sub.quant$Cq)),]
   
   dat.weib=fitdist(sub.quant$Cq,"weibull") #Fit a Weibull distribution using fitdist to estimate the parameters
-  
-  #    qqPlot(qweibull(ppoints(length(sub.quant$Cq)), shape = dat.weib$estimate[1], 
-  #                 scale =  dat.weib$estimate[2]), sub.quant$Cq,add.line=TRUE,xlab="Theoretical Quantiles",ylab="Sample Quantiles",main=paste("SQ",i))
   
   
   cvm=cvm.test(sub.quant$Cq, "pweibull", shape=dat.weib$estimate[1], scale=dat.weib$estimate[2])
@@ -234,10 +215,6 @@ for(i in levels(Dat$SQf)){
   
   entry=entry+1
   
-  
-  #  if(ad$p.value<0.05 | cvm$p.value<0.05){
-  # print("stop")
-  #}
 }
 
 
@@ -293,12 +270,6 @@ for(i in levels(Dat$SQf)){
   
   entry=entry+1
   
-  #if(ad$p.value<0.05 | cvm$p.value<0.05){
-  #  print(paste("Log-Logistic does not fit at SQ:",i))
-  # }
-  #  cat("\n\n")
-  
-}
 
 
 
@@ -322,9 +293,7 @@ for(i in levels(Dat$SQf)){
   
   sub.quant= Dat.eONKI %>%
     filter(SQf==i)
-  
-  # qqnorm(sub.quant$Cq,main=paste("SQ",i))
-  #qqline(sub.quant$Cq)
+
   
   sub.quant=sub.quant[!(is.na(sub.quant$Cq)),]
   
@@ -341,21 +310,8 @@ for(i in levels(Dat$SQf)){
   p_val.cvm[entry]=round(cvm$p.value,4)
   
   entry=entry+1
-  
-  #if(ad$p.value<0.05 | cvm$p.value<0.05){
-  #   print("stop")
-  # }
-  
-  # cat("\n\n")
+
 }
-#dev.off()
-
-
-
-
-
-
-
 
 coef_var=rep(0,length(levels(Dat$SQf))) 
 coef_var.standard=rep(0,length(levels(Dat$Sqf)))
@@ -381,9 +337,6 @@ for(i in levels(Dat$SQf)){
   
   dat.weib=fitdist(sub.quant$Cq,"weibull")
   
-  #qqPlot(qweibull(ppoints(length(sub.quant$Cq)), shape = dat.weib$estimate[1], 
-  #               scale =  dat.weib$estimate[2]), sub.quant$Cq,add.line=TRUE,xlab="Theoretical Quantiles",ylab="Sample Quantiles",main=paste("SQ",i))
-  
   
   mle.shape=dat.weib$estimate[1] #alpha
   
@@ -397,11 +350,8 @@ for(i in levels(Dat$SQf)){
   weibull.sd=sqrt(weibull.var)  
   
   
-  
-  #coef_var[entry]=round(weibull.sd/weibull.mean,4)
   coef_var[entry]=round(sd(sub.quant$Cq)/mean(sub.quant$Cq),4)
   
-  #coef_var.standard[entry]=round(sd(sub.quant$Cq)/mean(sub.quant$Cq),4)
   
   
   cvm=cvm.test(sub.quant$Cq, "pweibull", shape=dat.weib$estimate[1], scale=dat.weib$estimate[2])
@@ -412,16 +362,9 @@ for(i in levels(Dat$SQf)){
   p_val.cvm[entry]=round(cvm$p.value,4)
   
   entry=entry+1
-  
-  
-  
-  # if(ad$p.value<0.05 | cvm$p.value<0.05){
-  #  print(paste("Weibull does not fit at SQ:",i))
-  # }
-  # cat("\n\n")
+
   
 }
-#dev.off()
 
 
 coef_var_a=rep(0,length(levels(Dat$SQf)))
@@ -444,11 +387,7 @@ for(i in levels(Dat$SQf)){
   dat.loglogis=fitdist(sub.quant$Cq,"llogis",lower=c(0,0)) #Fit a Log-logistic distribution using fitdist
   
   
-  
-  #qqPlot(qllogis(ppoints(length(sub.quant$Cq)), shape = dat.loglogis$estimate[1], 
-  #             scale =  dat.loglogis$estimate[2]), log(sub.quant$Cq),add.line=TRUE,xlab="Theoretical Quantiles",ylab="Sample Quantiles",main=paste("SQ",i))
-  
-  
+
   mle.shape=as.numeric(dat.loglogis$estimate[1]) #Beta
   
   
@@ -482,13 +421,7 @@ for(i in levels(Dat$SQf)){
   p_val.cvm[entry]=round(cvm$p.value,4)
   
   entry=entry+1
-  
-  
-  
-  #if(ad$p.value<0.05 | cvm$p.value<0.05){
-  #   print(paste("Log-Logistic does not fit at SQ:",i))
-  # }
-  # cat("\n\n")
+
   
 }
 
