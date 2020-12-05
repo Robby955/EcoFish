@@ -10,15 +10,12 @@ library(gdata) #For unrolling matrices into vectors
 library(kableExtra) # For making Kable plots
 library(MASS) #Model selection
 library(magrittr) # For formatting
-library(lme4) # Mixed Models
 library(MuMIn) #Model Averaging
-library(caret) 
 library(leaps) #Best Subset Method
 library(factoextra) #Principal Component Analysis
 
 
 #Read in the original data
-
 fieldData=read.csv("EcoFieldUp.csv") #The original file name is Ecofish run of river salmonids - Combined raw ct scores and fish data. Changed up EcoFieldUp to read in.
 
 # We remove observations from Stream DDD in 2018 as they failed integritE tests.
@@ -1007,22 +1004,25 @@ field.pairsubset_ct=field.collapse%>%
 
 field.pairsubset_rb=field.collapse%>%
   dplyr::select(MeanTCTRb,RB.Total.Biomass.g,RB.Biomass.g.m2,RB.Biomass.g.m3,pH,Water.Temperature.C,Transect.Flow.cms,Stream.Code)
+#Pairs Plots
+
 #pdf(file="Cohopairs.pdf",width=7,height=7)
 
-pairs(field.collapse[, c('MeanTCTCo','CO.Total.Biomass.g','CO.Biomass.g.m2','CO.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')], col=factor(field.collapse$Stream.Code),cex=0.8,cex.labels=0.5)
+#pairs(field.collapse[, c('MeanTCTCo','CO.Total.Biomass.g','CO.Biomass.g.m2','CO.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')], col=factor(field.collapse$Stream.Code),cex=0.8,cex.labels=0.5)
 
 #dev.off()
 
 #pdf(file="EFishpairs_outlierincluded.pdf",width=7,height=7)
 
 
-pairs(field.collapse[, c('MeanTCTEf','Fish.Total.Biomass.g','Fish.Biomass.g.m2','Fish.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')],col=factor(field.collapse$Stream.Code),cex=0.8,cex.labels=0.6)
+#pairs(field.collapse[, c('MeanTCTEf','Fish.Total.Biomass.g','Fish.Biomass.g.m2','Fish.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')],col=factor(field.collapse$Stream.Code),cex=0.8,cex.labels=0.6)
 
 #dev.off()
 
 #pdf(file="EFishpairs.pdf",width=7,height=7)
 
-pairs(field.removeef[, c('MeanTCTEf','Fish.Total.Biomass.g','Fish.Biomass.g.m2','Fish.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')], col = factor(field.removeef$Stream.Code),cex=0.8,cex.labels=0.6)
+#pairs(field.removeef[, c('MeanTCTEf','Fish.Total.Biomass.g','Fish.Biomass.g.m2','Fish.Biomass.g.m3','Water.Temperature.C','pH','Transect.Flow.cms')], col = factor(field.removeef$Stream.Code),cex=0.8,cex.labels=0.6)
 
 
 #dev.off()
+f3
