@@ -11,10 +11,8 @@ library(dplyr)  #For piping and general use
 library(kableExtra) #For making kable plots
 library(ggplot2) #ggplot for plotting
 library(ggthemes) # themes for ggplots
-library(investr) #Calibration
 library(nlstools) #For nonlinear regression
 library(SiZer) #For bent.cable function
-library(robust) #For robust analysis
 
 # Read in the dilution data
 flow.dat<-read.csv("Flow-4July2019.csv") 
@@ -560,3 +558,4 @@ lines(xbs, p[2] + p[3]*xbs + ifelse(xbs>p[1], p[4]*(xbs-p[1]), 0), lwd=2, lty='s
 legend("topright",c("Lowess","Tanh","Bent Cable","Broken Stick"),col=c("green","purple","blue","red"),lty=rep('solid',4))
 #dev.off()
 
+gz_final_flow
