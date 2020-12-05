@@ -1,4 +1,4 @@
-# EcoFish
+# Eco Fish
 
 To create the Thesis, download the Zip file of this repo (top right of the main page of the repo, a green button with the words "code"). Then Select 'download zip'. Next, run 'mainthesisUVIC.tex' (located in the Thesis folder) to create the thesis. Be sure to Unzip the contents of the zip file into a local folder, such as a blank folder on your desktop.
 
