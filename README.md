@@ -1,6 +1,6 @@
 # Eco Fish
 
-To create the Thesis, download the Zip file of this repo (top right of the main page of the repo, a green button with the words "code"). Then Select 'download zip'. Next, run 'mainthesisUVIC.tex' (located in the Thesis folder) to create the thesis. Be sure to Unzip the contents of the zip file into a local folder, such as a blank folder on your desktop.
+To create the Thesis, download the Zip file of this repo (top right of the main page of the repo, a green button with the words "code"). Then Select 'download zip'. Next, run 'mainthesisUVIC.tex' (located in the Thesis folder) to create the thesis. Be sure to Unzip the contents of the zip file into a local folder, such as a blank folder on your desktop. The folder called "Data" contains all the required datasets needed to run the R code. Hence, you should set your working directory to this folder.
 
 
 ![What is this](Images/fish2.png)
