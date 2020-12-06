@@ -7,6 +7,7 @@
 
 #We don't want many extra digits, you can change this if you want more digits.
 options(digits=2)
+sink.indicator<-TRUE # For sending plots to output file
 
 # Load packages and libraries.
 library(knitr) #For rendering output to pdf
@@ -349,7 +350,12 @@ gz_fish=ggplot(data=eco.dat%>%filter(Fish!=0))+
   ylim(0,25)+
   labs(y="TCT", x="Sample Replicate")+theme_bw()+ scale_y_continuous(breaks=c(0,12.5,25),
                                                                      labels=c("0", "12.5", "25"),limits=c(0,25))+ theme(strip.background =element_rect(fill="lightblue"))
-#ggsave('gt.pdf',gz_fish,width=6,height=6,dpi=400)
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\gt.pdf')
+  #gz_fish
+  #dev.off()
+  
+  #ggsave('gt.pdf',gz_fish,width=6,height=6,dpi=400)
 
 
 rtt=range(141,161) # Select range of sort code for which we which to exclude.
@@ -364,7 +370,13 @@ gz_zerofish=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141
   ylim(0,20)+
   labs(y="TCT", x="Sample Replicate")+theme_bw()+ theme(strip.background =element_rect(fill="lightblue"))+theme( axis.line = element_line(colour = "black", 
                                                                                                                                                                                 size = 0.5, linetype = "solid"))
-#ggsave('gz2.pdf',gz_zerofish,width=6,height=6,dpi=400)
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\gz2.pdf')
+  #gz_zerofish
+  #dev.off()
+  
+  
+  #ggsave('gz2.pdf',gz_zerofish,width=6,height=6,dpi=400)
 
 
 # Create gz3.pdf
@@ -374,8 +386,13 @@ gz_zerofish=ggplot(data=eco.dat%>%filter(Fish==0)%>%filter(Sort.Code %notin% 141
   ylim(0,20)+
   labs(y="TCT", x="Sample Replicate")+theme_bw()+ theme(strip.background =element_rect(fill="lightblue"))+theme( axis.line = element_line(colour = "black", 
                                                                                                                                                                                 
-                                                                                                                                                                                size = 0.5, linetype = "solid"))
-#ggsave('gz3.pdf',gz_zerofish2,width=6,height=6,dpi=400)
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\gz3.pdf')
+  #gz_zerofish2
+  #dev.off()                                                                                                                                                                              size = 0.5, linetype = "solid"))
+
+  
+  
+  #ggsave('gz3.pdf',gz_zerofish2,width=6,height=6,dpi=400)
 
 
 # Additional Zero fish
@@ -585,7 +602,11 @@ gg_simple_median=ggplot(data=gframe)+
 common_int=lmparallel.tfac$coefficients[1]
 common_slope=lmparallel.tfac$coefficients[2]
 
-
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew.pdf')
+  #gg_simple_median
+  #dev.off()  
+  
+  
 #ggsave("ggplotnew.pdf",gg_simple_median,width=6,height=6,dpi=400)
 
 # Create parfits.pdf
@@ -610,6 +631,9 @@ gg_par_median=gg_par_median+ theme(
   legend.justification = c("right", "bottom"))
 
 
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\parfits.pdf')
+  #gg_par_median
+  #dev.off() 
 
 #ggsave("parfits.pdf",gg_par_median,width=6,height=6,dpi=400)
 
@@ -630,6 +654,12 @@ gg_tank_linear=ggplot(data=gframe)+
   theme(panel.grid.minor = element_blank(),
         panel.background = element_blank(),axis.line = element_line(colour = "black"))+scale_y_continuous(breaks=10:25)+ theme(legend.position = c(1, 0.05),legend.justification = c("right", "bottom"))
 
+
+  #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew.png')
+  #gg_tank_linear
+  #dev.off()   
+  
+  
 #ggsave("ggplotnew2.png",gg_tank_linear,width=6,height=6,dpi=400)
 
 col_bluevec=eco.sum.dat$Tank-18
@@ -675,11 +705,14 @@ gg_par_mean=ggplot(data=gframe.mean)+
   theme(legend.position = c(1, 0.05),
 legend.justification = c("right", "bottom"))
 
-#ggsave('parmean.pdf',gg_par_mean,width=6,height=6,dpi=500)
 
-gg_par_mean=gg_par_mean+labs(title="Mean Transformed CT by Log2 Fish Biomass (gram) \nwith differing intercepts")+ theme(
-  legend.position = c(1, 0.05),
-  legend.justification = c("right", "bottom"))
+  
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter3Images\\parmean.pdf')
+  #gg_par_mean
+  #dev.off()   
+  
+ #ggsave('parmean.pdf',gg_par_mean,width=6,height=6,dpi=50
+ 
 
 lfull.mean<-lm(TCTmean~l2biom+tankF+l2biom*tankF,data=eco.sum.out.dat) #Include interaction and tank effect as a factor.
 gframe.mean=data.frame(l2biom,eco.mean,eco.sum.dat$Tank-18,eco.sum.dat$Tank-18)
@@ -713,11 +746,12 @@ gg_tank_mean=ggplot(data=gframe.mean)+
           legend.position = c(1, 0.05),
           legend.justification = c("right", "bottom"))
 
+ #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew3.png')
+ #gg_tank_mean
+ #dev.off()   
+
 #ggsave('ggplotnew3.png',gg_tank_mean,height=6,width=6,dpi=500)
 
-gg_tank_mean=gg_tank_mean+labs(title="Mean Transformed CT by Log2 Fish Biomass (gram)")+theme(
-  legend.position = c(1, 0.05),
-  legend.justification = c("right", "bottom"))
 
 meanV=init.frame[,6] #Get the mean values from init.frame
 medV=init.frame[,5]
@@ -790,6 +824,13 @@ gn=ggplot(data=new.tank)+
   scale_x_continuous(position = "bottom") +
   scale_x_continuous(sec.axis=sec_axis(trans=~ . * 1, name=TeX("Coho biomass ($log_{2}$ g)")),labels=iFish,breaks=label.pos,position='top')
 
+ 
+  #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew5.png')
+  #gn
+  #dev.off()   
+  
+  
+  
 #ggsave('ggplotnew5.png',gn,width=6,height=6,dpi=500)
 
 gn_mean=ggplot(data=new.tank)+
@@ -804,7 +845,12 @@ gn_mean=ggplot(data=new.tank)+
   scale_x_continuous(position = "bottom") +
   scale_x_continuous(sec.axis=sec_axis(trans=~ . * 1, name=TeX("Coho biomass ($log_{2}$ g)")),labels=iFish,breaks=label.pos,position='top')
 
-#ggsave('ggplotnew4.png',gn_mean,width=6,height=6,dpi=500)
+  #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew4.png')
+  #gn_mean
+  #dev.off()   
+  
+  
+  #ggsave('ggplotnew4.png',gn_mean,width=6,height=6,dpi=500)
 
 
 modular=augment(l.tankregression)
@@ -825,7 +871,12 @@ gn2=ggplot(data=new.tankmed)+
   scale_x_continuous(position = "bottom") +
   scale_x_continuous(sec.axis=sec_axis(trans=~ . * 1, name=TeX("Coho biomass ($log_{2}$ g)")),labels=iFish,breaks=label.pos,position='top')
 
-
+  #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew5.png')
+  #gn2
+  #dev.off()   
+  
+  
+  
 #ggsave('ggplotnew5.png',gn2,width=6,height=6,dpi=500)
 
 lineartank19.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==19))
@@ -858,12 +909,12 @@ gg_mean_full=ggplot(data=gframe.mean)+
           legend.position = c(1, 0.05),
           legend.justification = c("right", "bottom"))
 
-#ggsave('ggplotnew7.png',gg_mean_full,width=6,height=6,dpi=500)
 
-
-gg_mean_full=gg_mean_full+labs(title="Mean Transformed CT by Log2 Fish Biomass (gram) \nwith Tank Specific Linear fits")+ theme(
-  legend.position = c(1, 0.05),
-  legend.justification = c("right", "bottom"))
+  #png('..\\EcoFish-master\\Thesis\\Chapter3Images\\ggplotnew7.png')
+  #gg_mean_full
+  #dev.off()   
+  
+  #ggsave('ggplotnew7.png',gg_mean_full,width=6,height=6,dpi=500)
 
 
 ## Show some of the plots.
@@ -913,7 +964,7 @@ col_bluevec=eco.sum.dat$Tank-18
 col_bluevec[col_bluevec==3]=4
 
 # Create residul plots for some models, this creates residuals2.pdf
-#pdf(file='residuals2.pdf')
+#pdf('..\\EcoFish-master\\Thesis\Chapter3Images\\residuals2.pdf')
 #par(mfrow=c(2,2))
 
 #plot(residuals(l.one.line),col =col_bluevec,pch=eco.sum.dat$Tank-18,las=1,ylab="Residuals")
