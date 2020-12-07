@@ -135,6 +135,11 @@ g2=ggplot(data=fieldData.AAA)+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme_minimal()
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\AAA_co_tct.pdf')
+  #g2
+  #dev.off()
+
 #ggsave('AAA_co_tct.pdf',g2,width=6,height=3,dpi=400)
 
 g3= ggplot(data=fieldData.AAA)+
@@ -158,6 +163,10 @@ g4= ggplot(data=fieldData.AAA)+
   theme(legend.position = "none")+
   theme_minimal()
 
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\AAA_ef_tct.pdf')
+  #g4
+  #dev.off()
+
 #ggsave('AAA_ef_tct.pdf',g4,width=6,height=3)
 
 
@@ -168,6 +177,10 @@ gg_AAA_Biomass=ggplot(data=AAA.frame,mapping=aes(x=Species,y=Biomass,fill=Site,l
   ylab("Total Biomass (g)")+
   theme_minimal()
 
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\AAA_EF_new.pdf')
+  #gg_AAA_Biomass
+  #dev.off()
+
 #ggsave('AAA_Ef_new.pdf',gg_AAA_Biomass,width=6,height=3)
 
 gg_AAA_Coho=ggplot(AAA.frame[AAA.frame$Species=="Coho Salmon", ],mapping=aes(x=Site,y=Biomass,label=Biomass))+
@@ -177,6 +190,12 @@ gg_AAA_Coho=ggplot(AAA.frame[AAA.frame$Species=="Coho Salmon", ],mapping=aes(x=S
   xlab("Site Number")+
   ylab("Total Biomass (g)")+
   theme_minimal()
+
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\AAA_Co_new.pdf')
+  #gg_AAA_Coho
+  #dev.off()
+
 #ggsave('AAA_Co_new.pdf',gg_AAA_Coho,width=6,height=3)
 
 
@@ -272,7 +291,10 @@ g2_BBB=ggplot(data=fieldData.BBB)+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme_minimal()
-
+ 
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\BBB_co_tct.pdf')
+#g2_BBB
+#dev.off()
 
 #ggsave('BBB_co_tct.pdf',g2_BBB,width=6,height=3,dpi=400)
 
@@ -295,6 +317,11 @@ g4_BBB= ggplot(data=fieldData.BBB)+
   scale_x_discrete(limits = c("1","2","3"))+
   theme(legend.position = "none")+
   theme_minimal()
+
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\BBB_ef_tct.pdf')
+#g4_BBB
+#dev.off()
 
 #ggsave('BBB_ef_tct.pdf',g4_BBB,width=6,height=3,dpi=400)
 
@@ -330,6 +357,12 @@ gg_BBB_Co=ggplot(BBB.frame[BBB.frame$Species=="Coho Salmon", ],mapping=aes(x=Sit
   theme_minimal()+
   theme(legend.position = "none")
 
+
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\BBB_Co_new.pdf')
+#gg_BBB_Co
+#dev.off()
+
 #ggsave('BBB_Co_new.pdf',gg_BBB_Co,width=6,height=3,dpi=400)
 
 
@@ -352,6 +385,10 @@ gg_BBB_Ef=ggplot(BBB.frame[BBB.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   ylab("Total Biomass (g)")+
   theme_minimal()+
   theme(legend.position = "none")
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\BBB_Ef_new.pdf')
+#gg_BBB_Ef
+#dev.off()
 
 #ggsave('BBB_Ef_new.pdf',gg_BBB_Ef,width=6,height=3,dpi=400)
 
@@ -405,6 +442,11 @@ g2_CCC=ggplot(data=fieldData.CCC)+
   theme(axis.text.y = element_text( size = 8 ))+
   theme_minimal()
 
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\CCC_co_tct.pdf')
+#g2_CCC
+#dev.off()
+
 #ggsave('CCC_co_tct.pdf',g2_CCC,width=6,height=3,dpi=400)
 
 g3_CCC=ggplot(data=fieldData.CCC)+
@@ -430,6 +472,12 @@ g4_CCC= ggplot(data=fieldData.CCC)+
   theme(legend.position = "none")+
   theme(axis.text.y = element_text( size = 8 ))+
   theme_minimal()
+
+
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\CCC_ef_tct.pdf')
+#g4_CCC
+#dev.off()
 
 #ggsave('CCC_ef_tct.pdf',g4_CCC,width=6,height=3,dpi=400)
 
@@ -468,6 +516,11 @@ gg_CCC_Co=ggplot(CCC.frame[CCC.frame$Species=="Coho Salmon", ],mapping=aes(x=Sit
   theme(legend.position = "none")
 
 
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\CCC_Co_new.pdf')
+#gg_CCC_Co
+#dev.off()
+
 #ggsave('CCC_Co_new.pdf',gg_CCC_Co,width=6,height=3,dpi=400)
 
 gg_CCC_Rb=ggplot(CCC.frame[CCC.frame$Species=="Rainbow Trout", ],mapping=aes(x=Site,y=Biomass,label=Biomass,fill=2))+
@@ -491,6 +544,11 @@ gg_CCC_Ef=ggplot(CCC.frame[CCC.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   facet_wrap(~Reach,ncol=2)+
   theme_minimal()+
   theme(legend.position = "none")
+
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\CCC_Ef_new.pdf')
+#gg_CCC_Ef
+#dev.off()
 
 #ggsave('CCC_Ef_new.pdf',gg_CCC_Ef,width=6,height=3,dpi=400)
 
@@ -529,8 +587,6 @@ DDD_df=data.frame(new.fish.vec_ef,reach.vec_ef_DDD,new.site.vector_ef,ar,ar2,ar3
 names(DDD_df)=c("Species","Reach","Site","Abundance","Biomass","Length")
 
 
-#DDD_df$Site[DDD_df$Reach=='Downstream']=DDD_df$Site+3 # The three sites Downstream are NOT the same as the three sites at the Diversion. So we scale so we can differentiate. 
-
 DDD_df$Site=as.factor(DDD_df$Site) #Make sure site is as a factor.
 
 
@@ -561,6 +617,10 @@ g2_DDD=ggplot(data=fieldData.DDD)+
   theme_minimal()
 
 
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\DDD_co_tct.pdf')
+#g2_DDD
+#dev.off()
+
 #ggsave('DDD_co_tct.pdf',g2_DDD,width=6,height=3,dpi=400)
 
 
@@ -588,7 +648,9 @@ g4_DDD= ggplot(data=fieldData.DDD)+
   theme(axis.text.y = element_text( size = 8 ))+
   theme_minimal()
 
-
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\DDD_ef_tct.pdf')
+#g4_DDD
+#dev.off()
 
 #ggsave('DDD_ef_tct.pdf',g4_DDD,width=6,height=3,dpi=400)
 
@@ -630,6 +692,10 @@ gg_DDD_Co=ggplot(DDD.frame[DDD.frame$Species=="Coho Salmon", ],mapping=aes(x=Sit
   theme_minimal()+
   theme(legend.position = "none")
 
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\DDD_Co_new.pdf')
+#gg_DDD_Co
+#dev.off()
+
 #ggsave('DDD_Co_new.pdf',gg_DDD_Co,width=6,height=3,dpi=500)
 
 gg_DDD_Rb=ggplot(DDD.frame[DDD.frame$Species=="Rainbow Trout", ],mapping=aes(x=Site,y=Biomass,label=Biomass,fill=2))+
@@ -654,6 +720,10 @@ gg_DDD_Ef=ggplot(DDD.frame[DDD.frame$Species=="Fish", ],mapping=aes(x=Site,y=Bio
   theme_minimal()+
   theme(legend.position = "none")
 
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\DDD_Ef_new.pdf')
+#gg_DDD_Ef
+#dev.off()
 
 #ggsave('DDD_Ef_new.pdf',gg_DDD_Ef,height=3,width=6,dpi=400)
 
@@ -750,7 +820,9 @@ gg_CO2=ggplot(data=field.collapse)+
   scale_shape_manual(values = 0:7)+
   theme_classic()
 
-
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\model_CO.pdf')
+#gg_CO2
+#dev.off()
 
 #ggsave('model_CO.pdf',gg_CO2,height=6,width=6,dpi=500)
 
@@ -790,6 +862,11 @@ gg_EF_Outlier=ggplot(data=field.collapse)+
   ylab("Mean TCT")+
   scale_shape_manual(values = 0:7)+
   theme_classic()
+
+
+#pdf('..\\EcoFish-master\\Thesis\\Chapter5Images\\gg_ef.pdf')
+#gg_EF_Outlier
+#dev.off()
 
 #ggsave('gg_ef.pdf',gg_EF_Outlier,width=6,height=6,dpi=500)
 
