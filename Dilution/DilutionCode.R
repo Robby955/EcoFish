@@ -14,6 +14,9 @@ library(ggthemes) # themes for ggplots
 library(nlstools) #For nonlinear regression
 library(SiZer) #For bent.cable function
 
+# For sending plots to file
+sink.indicator<-TRUE
+
 # Read in the dilution data
 flow.dat<-read.csv("Flow-4July2019.csv") 
 
@@ -186,6 +189,12 @@ gg_zerofish=ggplot(data=flow.dat%>%filter(Flow=='0'))+
                      labels=c("1", "2", "3"))+
   theme(strip.background =element_rect(fill="tomato1"))
 
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\zerofishtct.pdf')
+  #gg_zerofish
+  #dev.off()
+  
+
+
 #ggsave('zerofishtct.pdf',gg_zerofish,height=6,width=6,dpi=400)
 
 # Sink and Pond Plot
@@ -196,6 +205,12 @@ gg_pond_sink=ggplot(data=flow.dat%>%filter(Flow==c('pond','sink')))+
   xlab("Sample Replicate")+theme(strip.text.x = element_text(margin = margin( b = 1.5, t = 3),size=8))+
   theme(strip.background =element_rect(fill="tomato1"))+
   theme( axis.line = element_line(colour = "black", size = 0.5, linetype = "solid"))
+
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\pondandsink.pdf')
+  #gg_pond_sink
+  #dev.off()
+
 #ggsave('pondandsink.pdf',gg_pond_sink,height=6,width=6,dpi=400)
 
 # TCT by Tank and Flow
@@ -208,6 +223,11 @@ gz_final_flow=ggplot(data=flow.dat%>%filter(Flow!='0')%>%filter(Flow!='sink')%>%
   theme(strip.background =element_rect(fill="tomato1"))+
   theme( axis.line = element_line(colour = "black", 
                                   size = 0.5, linetype = "solid"))
+
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\pondandsink.pdf')
+  #gg_pond_sink
+  #dev.off()
 
 #ggsave('finalflowplots.pdf',gz_final_flow,height=6,width=6,dpi=500)
 
@@ -387,6 +407,11 @@ p2flow=ggplot(data=gframe_flow.med)+
   theme(panel.grid.minor = element_blank(),
         panel.background = element_blank(),axis.line = element_line(colour = "black"))+
 
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\flowmedtctgg.pdf')
+  #p2flow
+  #dev.off()
+
+
 #ggsave('flowmedtctgg.pdf',p2flow,width=6,height=6,dpi=500)
 
 
@@ -531,6 +556,12 @@ gz4=ggplot(data=flowfit200)+
 
 gz4
 
+
+
+  #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\flowggplot1.pdf')
+  #gz4
+  #dev.off()
+
 #ggsave('flowggplot1.pdf',gz4,width=6,height=6,dpi=500)
 
 # For plotting the niche models
@@ -549,7 +580,8 @@ p2<-coef(TCTmean.htan)
 p.tanh<-coef(TCTmean.htan)
 p <- coef(bstick.lm.mean)
 
-#pdf(file='meanTCTmodelcomparison.pdf')
+
+ #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\meanTCTmodelcomparison.pdf')
 plot(flow.new.sum.dat$l2Flow,flow.new.sum.dat$TCTmean,xlab="Log2 Flow (KL)",ylab="Mean TCT",las=1)
 lines(TCTmean.lowess,col='green')
 lines(x1,p.tanh[3]+p.tanh[4]*(x1-p.tanh[1])+p.tanh[5]*(x1-p.tanh[1])*tanh((x1-p.tanh[1])/p.tanh[2]),lwd=1,lty='solid',col='purple')
