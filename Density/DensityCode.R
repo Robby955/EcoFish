@@ -4,7 +4,6 @@
 #Set your working directory to where you have "DensityDataUpdated.csv" and "densitybiomassoriginal.csv" saved.
 #These are located in the Data folder of the repo.
 
-
 #We don't want many extra digits, you can change this if you want more digits.
 options(digits=2)
 sink.indicator<-TRUE # For sending plots to output file
@@ -24,7 +23,6 @@ library(investr) #For calibration
 library(latex2exp) #For latex in ggplots
 library(broom) # plotting residuals in ggplot
 library(patchwork) #Common Titles in ggplot
-
 
 #Read in the initial dataset.
 eco.dat<-read.csv("DensityDataUpdated.csv",fileEncoding="UTF-8-BOM")
@@ -875,8 +873,6 @@ gn2=ggplot(data=new.tankmed)+
   #gn2
   #dev.off()   
   
-  
-  
 #ggsave('ggplotnew5.png',gn2,width=6,height=6,dpi=500)
 
 lineartank19.mean<-lm(TCTmean~l2biom, data=eco.sum.out.dat, subset=(TankF==19))
@@ -915,7 +911,6 @@ gg_mean_full=ggplot(data=gframe.mean)+
   #dev.off()   
   
   #ggsave('ggplotnew7.png',gg_mean_full,width=6,height=6,dpi=500)
-
 
 ## Show some of the plots.
 ## Note some of the above plots are commented out so won't show when you run the script, you can
