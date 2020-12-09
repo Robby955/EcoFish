@@ -254,7 +254,6 @@ for (j in iFlowN){
   }
 }
 
-
 #Flow values of interest , except zero flow.
 iFlow<-c(10,20,40,80,160,1000)
 
@@ -303,7 +302,6 @@ flow.new.zero<-flow.cut.order %>%
 jmed_flow.test<-tapply(flow.new$Transformed.Ct, factor(flow.new$Sort.Code), median) #Gives the median for each sort code.
 
 jmean_flow<-tapply(flow.new$Transformed.Ct,factor(flow.new$Sort.Code),mean) #Gives the mean for each sort code.
-
 
 jmed_flow.test.zero<-tapply(flow.new.zero$Transformed.Ct, factor(flow.new.zero$Sort.Code), median) #Gives the median for each sort code.
 
@@ -425,14 +423,11 @@ l.tank<-lm(TCTmed~l2Flow+TankF,data=flow.new.sum.dat)
 l.four.line<-lm(TCTmed~l2Flow+TankF+l2Flow*TankF,data=flow.new.sum.dat)
 
 
-
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
 names(dff2)=c("Term","Estimate",'Std Error','t value','Pr(>|t|)')
 
 ktz2=kable(dff2,format="latex",booktabs=T,escape = FALSE)%>%
   kable_styling("striped")
-
-
 
 
 dff2=data.frame(term_name,kcoef,kse,tval,pval)
@@ -555,8 +550,6 @@ gz4=ggplot(data=flowfit200)+
                      breaks=breaks,labels=c('3','4','5','6',round(model.bc.mean$alpha,2),'7.5','8','9','10'))+ scale_y_continuous(expand = c(0,0))
 
 gz4
-
-
 
   #pdf('..\\EcoFish-master\\Thesis\\Chapter4Images\\flowggplot1.pdf')
   #gz4
