@@ -500,6 +500,38 @@ names(new.seq5)='x'
 a.hat200=model.bc.mean$alpha #MLE of alpha
 g.hat200=model.bc.mean$gamma #MLE of gamma
 
+
+
+
+
+### ESTIMATE STANDARD ERROR OF ALPHA USING BOOTSTRAP ###
+set.seed(2222)
+strap_size=5
+grid_size=50
+
+a.strap=rep(0,strap_size)
+le=length(flow.new.sum.dat$l2Flow)
+lvec=c(1:le)
+for(i in 1:strap_size){
+rand=sample(lvec,60)
+model.bc.mean_boot=bent.cable(flow.new.sum.dat$l2Flow[rand],flow.new.sum.dat$TCTmean[rand],grid.size =grid_size)
+x.grid <- seq(min(flow.new.sum.dat$TCTmean[rand]), max(flow.new.sum.dat$TCTmean[rand]), length=grid_size)
+
+
+new.seq4=seq(min(flow.new.sum.dat$l2Flow[rand]),max(flow.new.sum.dat$l2Flow[rand]),length=length(rand))
+new.seq4=data.frame(new.seq4)
+names(new.seq4)='l2Flow'
+new.seq5=new.seq4
+names(new.seq5)='x'
+
+
+a.strap[i]=model.bc.mean_boot$alpha #MLE of alpha
+
+}
+sd(a.strap) # sd for alpha result is ~0.55
+########################################################################
+
+
 #build our q matrix
 
 q.hat200=rep(0) #initialize
