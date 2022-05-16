@@ -552,8 +552,8 @@ pz200=predict(model.bc.mean$model,newdata=nf200,interval='confidence')
 new.tank=data.frame(flow.init,init.frame[,6]) #extract from earlier
 names(new.tank)=c("Flow","Mean")
 
-#The S.E of break point estimate is 0.5417, times 1.96 is 1.062
-se=0.5417
+#The S.E of break point estimate is 0.55, times 1.96 is 1.062
+se=sd(a.strap)
 ci=se*1.96
 
 meanflows=data.frame(new.tank) #Our points, mean over tanks
